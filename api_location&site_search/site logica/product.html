@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Product Details</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        margin: 0;
+        padding: 0;
+        background: #fafafa;
+        color: #222;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .back-button {
+        margin-bottom: 24px;
+        padding: 8px 16px;
+        background: #f0f0f0;
+        color: #222;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .back-button:hover {
+        background: #e0e0e0;
+      }
+      .product-details {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .product-name {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 12px 0;
+        color: #222;
+      }
+      .product-company {
+        font-size: 18px;
+        color: #666;
+        margin: 0 0 24px 0;
+      }
+      .product-price {
+        font-size: 36px;
+        font-weight: 700;
+        color: #2b7cff;
+        margin: 0 0 24px 0;
+      }
+      .product-category {
+        display: inline-block;
+        font-size: 14px;
+        padding: 8px 16px;
+        background: #f0f0f0;
+        border-radius: 6px;
+        color: #666;
+        margin-bottom: 24px;
+      }
+      .product-info {
+        margin-top: 32px;
+        padding-top: 32px;
+        border-top: 1px solid #eee;
+      }
+      .info-item {
+        margin-bottom: 16px;
+      }
+      .info-label {
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 4px;
+      }
+      .info-value {
+        color: #222;
+      }
+      .loading,
+      .error {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+      .error {
+        color: #d32f2f;
+      }
+      .favorite-button {
+        margin-top: 24px;
+        padding: 12px 24px;
+        background: #2b7cff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.08s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .favorite-button:hover {
+        background: #1e6ae6;
+        transform: translateY(-2px);
+      }
+      .favorite-button:active {
+        transform: translateY(0);
+      }
+      .favorite-button.favorited {
+        background: #ff6b6b;
+      }
+      .favorite-button.favorited:hover {
+        background: #ff5252;
+      }
+      .favorite-button svg {
+        width: 20px;
+        height: 20px;
+        fill: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="main.html" class="back-button">← Back to Main</a>
+      <div id="product-container">
+        <div class="loading">Loading product...</div>
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("product-container");
+
+        // Get product from localStorage
+        const productJson = localStorage.getItem("selectedProduct");
+
+        if (!productJson) {
+          container.innerHTML =
+            '<div class="error">Produsul nu a fost găsit. Vă rugăm selectați un produs.</div>';
+          return;
+        }
+
+        let product;
+        try {
+          product = JSON.parse(productJson);
+        } catch (error) {
+          container.innerHTML =
+            '<div class="error">Eroare la citirea datelor produsului.</div>';
+          return;
+        }
+
+        // Funcție pentru formatarea prețului
+        function formatPrice(priceString) {
+          if (!priceString || typeof priceString !== "string") {
+            return priceString || "Preț indisponibil";
+          }
+
+          // Extrage textul după număr (ex: "Lei", "RON", etc.)
+          const parts = priceString.trim().split(/\s+/);
+          const currency = parts.slice(1).join(" ") || "";
+          const pricePart = parts[0];
+
+          // Dacă deja are virgulă, verific dacă sunt "00" după virgulă
+          if (pricePart.includes(",")) {
+            const [integerPart, decimalPart] = pricePart.split(",");
+            if (decimalPart === "00") {
+              return integerPart + (currency ? " " + currency : "");
+            }
+            return pricePart + (currency ? " " + currency : "");
+          }
+
+          // Dacă are punct (separator de mii), verific dacă ultimele 2 cifre sunt zecimale
+          if (pricePart.includes(".")) {
+            // Elimină punctele (separatori de mii)
+            const digitsOnly = pricePart.replace(/\./g, "");
+
+            // Dacă are cel puțin 3 cifre, ultimele 2 ar putea fi zecimale
+            if (digitsOnly.length >= 3) {
+              const lastTwo = digitsOnly.slice(-2);
+              const rest = digitsOnly.slice(0, -2);
+
+              // Dacă ultimele 2 cifre sunt "00", le eliminăm
+              if (lastTwo === "00") {
+                // Formatează cu puncte ca separator de mii
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return formatted + (currency ? " " + currency : "");
+              } else {
+                // Formatează cu puncte ca separator de mii și virgulă pentru zecimale
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return (
+                  formatted + "," + lastTwo + (currency ? " " + currency : "")
+                );
+              }
+            }
+          }
+
+          // Dacă nu are punct sau virgulă, verific dacă are cel puțin 2 cifre
+          const digitsOnly = pricePart.replace(/\D/g, "");
+          if (digitsOnly.length >= 2) {
+            const lastTwo = digitsOnly.slice(-2);
+            const rest = digitsOnly.slice(0, -2);
+
+            if (lastTwo === "00") {
+              return rest || "0" + (currency ? " " + currency : "");
+            } else {
+              return (
+                (rest || "0") + "," + lastTwo + (currency ? " " + currency : "")
+              );
+            }
+          }
+
+          return priceString;
+        }
+
+        // Check if product is favorited (folosim Nume ca identificator)
+        const favoriteProducts = JSON.parse(
+          localStorage.getItem("favoriteProducts") || "[]"
+        );
+        const isFavorited = favoriteProducts.includes(product.Nume);
+
+        // Formatăm prețul
+        const formattedPrice = formatPrice(product.Pret);
+
+        // Display product details
+        container.innerHTML = `
+          <div class="product-details">
+            <h1 class="product-name">${product.Nume || "Produs fără nume"}</h1>
+            <p class="product-company">${product.Site || "Site necunoscut"}</p>
+            <p class="product-price">${formattedPrice}</p>
+            <a href="${
+              product.Link || "#"
+            }" target="_blank" style="display: inline-block; margin-top: 16px; padding: 12px 24px; background: #2b7cff; color: white; text-decoration: none; border-radius: 8px; font-weight: 500;">
+              Vezi produsul pe site
+            </a>
+            <button class="favorite-button ${
+              isFavorited ? "favorited" : ""
+            }" id="favorite-btn">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              ${isFavorited ? "Elimină din Favorite" : "Adaugă la Favorite"}
+            </button>
+            <div class="product-info">
+              <div class="info-item">
+                <div class="info-label">Nume Produs</div>
+                <div class="info-value">${product.Nume || "N/A"}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Site</div>
+                <div class="info-value">${product.Site || "N/A"}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Preț</div>
+                <div class="info-value">${formattedPrice}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Link</div>
+                <div class="info-value">
+                  <a href="${
+                    product.Link || "#"
+                  }" target="_blank" style="color: #2b7cff; word-break: break-all;">
+                    ${product.Link || "N/A"}
+                  </a>
+                </div>
+              </div>
+              ${
+                product.Site_URL
+                  ? `
+              <div class="info-item">
+                <div class="info-label">Site URL</div>
+                <div class="info-value">
+                  <a href="${product.Site_URL}" target="_blank" style="color: #2b7cff; word-break: break-all;">
+                    ${product.Site_URL}
+                  </a>
+                </div>
+              </div>
+              `
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+
+        // Update page title
+        document.title = `${product.Nume || "Produs"} - REO`;
+
+        // Handle favorite button click
+        const favoriteBtn = document.getElementById("favorite-btn");
+        favoriteBtn.addEventListener("click", () => {
+          let favoriteProducts = JSON.parse(
+            localStorage.getItem("favoriteProducts") || "[]"
+          );
+
+          if (favoriteProducts.includes(product.Nume)) {
+            // Remove from favorites
+            favoriteProducts = favoriteProducts.filter(
+              (name) => name !== product.Nume
+            );
+            favoriteBtn.classList.remove("favorited");
+            favoriteBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              Adaugă la Favorite
+            `;
+          } else {
+            // Add to favorites
+            favoriteProducts.push(product.Nume);
+            favoriteBtn.classList.add("favorited");
+            favoriteBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              Elimină din Favorite
+            `;
+          }
+
+          localStorage.setItem(
+            "favoriteProducts",
+            JSON.stringify(favoriteProducts)
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
