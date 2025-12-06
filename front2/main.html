@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Rio - Buy Big From Small</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Candal&family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="home">
+      <!-- Navigation -->
+      <nav class="nav-fundal" role="navigation">
+        <button class="burger" type="button" aria-label="Open navigation menu">
+          <img class="burger-icon" src="assets/burger.svg" alt="burger-icon" />
+        </button>
+        
+        <form class="search-bar" role="search">
+          <label for="search-input" class="visually-hidden">Search products</label>
+          <input type="search" id="search-input" name="search" placeholder="Search" aria-label="Search products" />
+          <button type="submit" aria-label="Submit search">
+            <img src="assets/burger.svg" alt="Search" class="search-icon" />
+          </button>
+        </form>
+
+        <a href="#cart" class="cosul-meu" aria-label="View shopping cart">
+          <img class="basket-icon" src="assets/bascket.svg" alt="Basket-icon" />
+          <span class="nav-link-text nav-link-text--cart">COȘUL MEU</span>
+        </a>
+
+        <a href="#favorites" class="favorite" aria-label="View favorites">
+          <img class="heart-icon" src="assets/heart.svg" alt="heart-icon" />
+          <span class="nav-link-text nav-link-text--favorite">FAVORITE</span>
+        </a>
+
+        <button class="profile" type="button" aria-label="Open user profile"></button>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <img class="hero-logo" src="assets/logoRio.png" alt="Rio logo" />
+        <h1 class="hero-title">HOW DO YOU FEEL TODAY?</h1>
+        <form class="search-form" role="search">
+          <input type="text" class="hero-search-input" placeholder="Search..." />
+          <button class="search-button" type="submit">
+            <span class="button-text button-text--search">Search</span>
+          </button>
+          <button class="i-feel-lucky-button" type="button">
+            <span class="button-text button-text--lucky">I feel lucky</span>
+          </button>
+        </form>
+        <img class="hero-mascot" src="assets/veveritaRio.png" alt="Rio mascot character" />
+        <div class="hero-acorns">
+          <img src="assets/ghinda.png" alt="Acorn" />
+          <img src="assets/ghinda.png" alt="Acorn" />
+          <img src="assets/ghinda.png" alt="Acorn" />
+        </div>
+      </section>
+
+      <!-- Featured Section -->
+      <section class="featured-section">
+        <div class="featured-image-container">
+          <div class="featured-overlay"></div>
+          <h2 class="section-heading section-heading--large">BUY BIG FROM SMALL</h2>
+          <p class="section-description">Become an Rio member by supporting small talents</p>
+          <div class="featured-leaf-icon"></div>
+        </div>
+      </section>
+
+      <!-- Products Section - Bluze -->
+      <section class="products-section">
+        <h2 class="section-heading section-heading--medium">WHAT'S NEW</h2>
+        <h3 class="section-subheading">Bluze</h3>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button" type="button" aria-label="Add to favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Bluza de seara bej</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+          
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Bluza de seara bej</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Bluza de seara bej</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Bluza de seara bej</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="liked-button" type="button">x liked this</button>
+        <nav class="product-carousel-nav" aria-label="Product navigation">
+          <button class="carousel-dot carousel-dot--active" aria-label="Page 1"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 2"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 3"></button>
+        </nav>
+      </section>
+
+      <!-- Products Section - Carti -->
+      <section class="products-section products-section--books">
+        <h3 class="section-subheading section-subheading--books">Carti</h3>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button" type="button" aria-label="Add to favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Book Title</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Book Title</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Book Title</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button product-favorite-button--active" type="button" aria-label="Remove from favorites">
+                <img class="product-favorite-icon" src="assets/heart.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">Book Title</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="liked-button" type="button">x liked this</button>
+        <nav class="product-carousel-nav" aria-label="Product navigation">
+          <button class="carousel-dot carousel-dot--active" aria-label="Page 1"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 2"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 3"></button>
+        </nav>
+      </section>
+
+     
+    </div>
+  </body>
+</html>
