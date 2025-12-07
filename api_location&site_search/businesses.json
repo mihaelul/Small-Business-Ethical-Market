@@ -1,226 +1,37 @@
 [
   {
-    "Denumire": "Fag-shop.ro Magazin on-line Bricolaj",
-    "Adresa": "Strada Soldat Petre M. Tină 5, București",
+    "Denumire": "Madam Mitza socks",
+    "Adresa": "Strada Alecu Russo 24-26, București",
     "Rating": 5,
     "Nr_Reviews": 4,
-    "Website": "https://fag-shop.ro/"
+    "Website": "https://www.madammitza.com/"
   },
   {
-    "Denumire": "PREZENT STUDIO",
-    "Adresa": "Strada Baia de Aramă, București",
+    "Denumire": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Adresa": "bloc Corp B, Strada General H. M. Berthelot 92, București",
     "Rating": 5,
-    "Nr_Reviews": 20,
-    "Website": "http://prezent.studio/"
-  },
-  {
-    "Denumire": "DECOLANDIA",
-    "Adresa": "Strada Constantin Aricescu 18, București",
-    "Rating": 4.9,
-    "Nr_Reviews": 32,
-    "Website": "https://www.decolandia.ro/"
-  },
-  {
-    "Denumire": "Franke Bauformat Kitchen Design",
-    "Adresa": "Strada Viitorului nr. 182, București",
-    "Rating": 4.9,
-    "Nr_Reviews": 62,
-    "Website": "http://www.bucatariibauformat.ro/"
-  },
-  {
-    "Denumire": "Decor pentru copii",
-    "Adresa": "Strada Mihai Eminescu 40, București",
-    "Rating": 4.8,
     "Nr_Reviews": 18,
-    "Website": "http://decorpentrucopii.ro/"
+    "Website": "https://dinsertar.ro/"
   },
   {
-    "Denumire": "INTTECH INDUSTRY - Pipera",
-    "Adresa": "Bulevardul Pipera 37, Voluntari",
+    "Denumire": "Magazin de sosete \"Pirin Hill\"",
+    "Adresa": "Calea Vitan 8, București",
     "Rating": 4.8,
-    "Nr_Reviews": 51,
-    "Website": "http://www.irrishop.ro/"
+    "Nr_Reviews": 68,
+    "Website": "http://pirinhill.com/"
   },
   {
-    "Denumire": "Horecamag",
-    "Adresa": "Strada Agricultori 113, sector 2 corp 2, et. 1, lot 2, București",
-    "Rating": 4.7,
-    "Nr_Reviews": 20,
-    "Website": "http://www.horecamag.ro/"
-  },
-  {
-    "Denumire": "Pro Dias",
-    "Adresa": "Strada Avrig 29b, București",
-    "Rating": 4.8,
-    "Nr_Reviews": 245,
-    "Website": "http://totuldespreusi.ro/contact.html"
-  },
-  {
-    "Denumire": "Kuul",
-    "Adresa": "Strada Tudor Arghezi 8-10, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 2,
-    "Website": "http://kuul.ro/"
-  },
-  {
-    "Denumire": "DEPOZIT MATERIALE SC COMLAR IMPEX 96 SRL",
-    "Adresa": "Șoseaua Fundeni, Dobroești",
-    "Rating": 4.6,
-    "Nr_Reviews": 66,
-    "Website": "http://www.comlar.ro/"
-  },
-  {
-    "Denumire": "Trady 2000",
-    "Adresa": "Calea Călărași 114, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 135,
-    "Website": "http://www.trady.ro/"
-  },
-  {
-    "Denumire": "Cripal Impex S.R.L.",
-    "Adresa": "Str. Județului 8, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 137,
-    "Website": "http://www.cripal.ro/"
-  },
-  {
-    "Denumire": "SensoDays",
-    "Adresa": "Strada Bilciurești 20-22, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 425,
-    "Website": "https://www.sensodays.ro/"
-  },
-  {
-    "Denumire": "Leroy Merlin",
-    "Adresa": "Parcul Comercial Colosseum, Șoseaua Chitilei 284-286, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 11866,
-    "Website": "http://www.leroymerlin.ro/"
-  },
-  {
-    "Denumire": "Punct ridicare comenzi Leroy Merlin",
-    "Adresa": "Str. Peștilor, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 6,
-    "Website": "https://www.leroymerlin.ro/"
-  },
-  {
-    "Denumire": "Home Expert Magazin",
-    "Adresa": "Calea Moșilor 51, București",
+    "Denumire": "Magazin de sosete \"Pirin Hill\" - Veranda Mall",
+    "Adresa": "lângă Decathlon, Strada Ziduri Moși 23",
     "Rating": 4.2,
     "Nr_Reviews": 5,
-    "Website": "https://homeexpert-magazin.ro/"
+    "Website": "https://pirinhill.com/ro"
   },
   {
-    "Denumire": "MobAmbient",
-    "Adresa": "Șoseaua Mihai Bravu 510, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 128,
-    "Website": "https://mobambient-sofa.ro/contact"
-  },
-  {
-    "Denumire": "Darel Impex",
-    "Adresa": "Strada Ion Șahighian 4F, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 358,
-    "Website": "http://www.darel.ro/"
-  },
-  {
-    "Denumire": "Heng Yuan Market",
-    "Adresa": "Bulevardul Iuliu Maniu 51, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 426,
-    "Website": "https://www.listafirme.ro/heng-yuan-supercom-srl-38328537/"
-  },
-  {
-    "Denumire": "JYSK",
-    "Adresa": "Strada Mihail Sebastian 88, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 2177,
-    "Website": "https://jysk.ro/magazinele/bucuresti/strada-mihail-sebastian?utm_source=google_maps&utm_medium=organic&utm_campaign=retail_store_W018"
-  },
-  {
-    "Denumire": "Dedeman",
-    "Adresa": "Șoseaua Colentina 426, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 8877,
-    "Website": "https://www.dedeman.ro/"
-  },
-  {
-    "Denumire": "Germag",
-    "Adresa": "Strada Piața Amzei 15, București",
-    "Rating": 4,
-    "Nr_Reviews": 12,
-    "Website": "http://www.germag.ro/"
-  },
-  {
-    "Denumire": "YALCO Romania",
-    "Adresa": "Șoseaua Pipera nr. 48, București",
-    "Rating": 4,
-    "Nr_Reviews": 324,
-    "Website": "http://www.yalco.ro/"
-  },
-  {
-    "Denumire": "LEMS",
-    "Adresa": "Vulcan Value Centre, Strada Mihail Sebastian 88, București",
-    "Rating": 4,
-    "Nr_Reviews": 510,
-    "Website": "http://www.lemet.ro/"
-  },
-  {
-    "Denumire": "MAM Bricolaj Ghencea",
-    "Adresa": "Prelungirea Ghencea 299, București",
-    "Rating": 4.1,
-    "Nr_Reviews": 637,
-    "Website": "https://mam-bricolaj.ro/"
-  },
-  {
-    "Denumire": "Specialistul Casei Tale- magazin bricolaj",
-    "Adresa": "Strada Nicolae Iorga 1a, Tunari",
-    "Rating": 3.6,
-    "Nr_Reviews": 14,
-    "Website": "https://www.specialistulcasei.ro/"
-  },
-  {
-    "Denumire": "Regency Company Morarilor",
-    "Adresa": "Șos. Morarilor 2, București",
+    "Denumire": "Allmountain Patagonia Baneasa",
+    "Adresa": "Baneasa Shopping City, Șoseaua București-Ploiești 42D, București",
     "Rating": 3.8,
-    "Nr_Reviews": 506,
-    "Website": "http://www.regencycompany.ro/"
-  },
-  {
-    "Denumire": "Brico Depot Pantelimon",
-    "Adresa": "Șos. Vergului 20, București",
-    "Rating": 3.9,
-    "Nr_Reviews": 1775,
-    "Website": "https://www.bricodepot.ro/contact/pantelimon/"
-  },
-  {
-    "Denumire": "Brico Depot Orhideea",
-    "Adresa": "Calea Giulești 1-3, București",
-    "Rating": 3.8,
-    "Nr_Reviews": 2192,
-    "Website": "https://www.bricodepot.ro/contact/orhideea/"
-  },
-  {
-    "Denumire": "Brico Depot",
-    "Adresa": "Șoseaua Vitan-Bârzești 7A, București",
-    "Rating": 3.9,
-    "Nr_Reviews": 2665,
-    "Website": "https://www.bricodepot.ro/"
-  },
-  {
-    "Denumire": "MatHaus",
-    "Adresa": "Calea Vitan 112-114, București",
-    "Rating": 3.9,
-    "Nr_Reviews": 7262,
-    "Website": "https://mathaus.ro/?utm_source=google&utm_medium=local&utm_campaign=MatHausVitan"
-  },
-  {
-    "Denumire": "FRANKE SHOWROOM BUCURESTI",
-    "Adresa": "Calea Șerban Vodă 232-234, București",
-    "Rating": 3.6,
-    "Nr_Reviews": 62,
-    "Website": "http://www.showroomfrk.ro/"
+    "Nr_Reviews": 17,
+    "Website": "https://www.allmountain.ro/"
   }
 ]

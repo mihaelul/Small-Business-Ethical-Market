@@ -14,17 +14,17 @@ def compare_original_with_downloaded(original_folder="data/original", downloaded
         similarity_threshold: Prag minim de similaritate pentru a considera o potrivire
     
     Returns:
-        dict: Rezultatele comparației
+        dict: Rezultatele comparatiei
     """
     original_path = Path(original_folder)
     downloaded_path = Path(downloaded_folder)
     
     if not original_path.exists():
-        print(f"❌ Folderul original nu există: {original_folder}")
+        print(f" Folderul original nu exista: {original_folder}")
         return {}
     
     if not downloaded_path.exists():
-        print(f"❌ Folderul cu imagini descărcate nu există: {downloaded_folder}")
+        print(f" Folderul cu imagini descărcate nu exista: {downloaded_folder}")
         return {}
     
     # Get all original images
@@ -41,18 +41,18 @@ def compare_original_with_downloaded(original_folder="data/original", downloaded
     ]
     
     if not original_images:
-        print(f"❌ Nu s-au găsit imagini în {original_folder}")
+        print(f" Nu s-au găsit imagini în {original_folder}")
         return {}
     
     if not downloaded_images:
-        print(f"❌ Nu s-au găsit imagini în {downloaded_folder}")
+        print(f" Nu s-au găsit imagini în {downloaded_folder}")
         return {}
     
-    print(f"\n📊 Comparare imagini")
+    print(f"\n Comparare imagini")
     print("=" * 60)
-    print(f"📁 Original: {len(original_images)} imagini")
-    print(f"📁 Descărcate: {len(downloaded_images)} imagini")
-    print(f"🎯 Prag similaritate: {similarity_threshold*100:.0f}%")
+    print(f" Original: {len(original_images)} imagini")
+    print(f" Descărcate: {len(downloaded_images)} imagini")
+    print(f" Prag similaritate: {similarity_threshold*100:.0f}%")
     print("=" * 60)
     
     results = {}
@@ -60,7 +60,7 @@ def compare_original_with_downloaded(original_folder="data/original", downloaded
     # Compare each original image with all downloaded images
     for orig_img in original_images:
         orig_name = orig_img.name
-        print(f"\n🔍 Analizând: {orig_name}")
+        print(f"\n Analizand: {orig_name}")
         
      
         downloaded_paths = [str(img) for img in downloaded_images]
@@ -104,7 +104,7 @@ def compare_original_with_downloaded(original_folder="data/original", downloaded
                 print(f"         Similaritate: {match['similarity']:.4f} ({match['confidence']:.2f}%)")
                 print(f"         Verdict: {match['label']}")
         else:
-            print(f"     Nu s-au găsit potriviri peste {similarity_threshold*100:.0f}%")
+            print(f"     Nu s-au gasit potriviri peste {similarity_threshold*100:.0f}%")
     
     return results
 
@@ -112,7 +112,7 @@ def compare_original_with_downloaded(original_folder="data/original", downloaded
 def print_summary(results):
     """Afiseaza un rezumat al rezultatelor"""
     if not results:
-        print("\n❌ Nu exista rezultate de afisat")
+        print("\n Nu exista rezultate de afisat")
         return
     
     print("\n" + "=" * 60)

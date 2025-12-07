@@ -1,9 +1,163 @@
 [
   {
-    "Nume": "Cele mai vandute  produse din Bricolaj",
-    "Pret": "1.691,72 lei",
-    "Link": "https://www.yalco.ro/bricolaj/fierastraie-circulare/circular-de-mana-cu-sina-de-ghidaj-dewalt-dws520k-1050-w-59-mm-883",
-    "Site": "YALCO Romania",
-    "Site_URL": "http://www.yalco.ro/"
+    "Nume": "Pachet sosete femei – inaltime 3/4, colorate, STRIPES",
+    "Pret": "80.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-femei-inaltime-3-4-colorate-stripes/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet sosete barbati MUST HAVE PER YEAR 1/2 – multicolor",
+    "Pret": "146.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-barbati-must-have-per-year-1-2-multicolor/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete MARINAR 3/4 – femei, multicolor",
+    "Pret": "22.00 lei",
+    "Link": "https://www.madammitza.com/produs/marinar-34-femei-multicolor/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete MUSTATI 1/2 – barbati, galben/negru",
+    "Pret": "22.00 lei",
+    "Link": "https://www.madammitza.com/produs/mustati-12-barbati-galbennegru/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet sosete barbati 3 perechi + prosop oaspeti „Body care division”, 40x60cm, rosu",
+    "Pret": "119.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-barbati-3-perechi-prosop-oaspeti-body-care-division-40x60cm-rosu/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet sosete barbati 3 perechi + prosop oaspeti „Body care division”, 40x60cm, albastru royal",
+    "Pret": "119.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-barbati-3-perechi-prosop-oaspeti-body-care-division-40x60cm-albastru-royal/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet sosete barbati 3 perechi + Ochelari de soare retro, „Cheaters”, verde",
+    "Pret": "129.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-barbati-3-perechi-ochelari-de-soare-retro-cheaters-verde/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete model MMSOX 1/2, barbati, rosu-galben-negru",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-model-mmsox-1-2-barbati-rosu-galben-negru/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete model BULINE DE VARA 1/2, femei, multicolor",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-model-buline-de-vara-1-2-femei-multicolor/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete model DJ COOL 3/4, femei, multicolor, 3 dungi",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-model-dj-cool-3-4-femei-multicolor-3-dungi/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete model VINTAGE SPORT 1/2, barbati, multicolor, 3 dungi",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-model-vintage-sport-1-2-barbati-multicolor-3-dungi/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete model VINTAGE SPORT 3/4, femei, multicolor, 3 dungi",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-model-vintage-sport-3-4-femei-multicolor-3-dungi/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet sosete femei – inaltime 3/4, modele vintage & cool",
+    "Pret": "50.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-sosete-femei-inaltime-3-4-modele-vintage-cool/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Pachet manusi iarna & sosete femei 3/4 inaltime, vintage sport",
+    "Pret": "65.00 lei",
+    "Link": "https://www.madammitza.com/produs/pachet-manusi-iarna-sosete-femei-3-4-inaltime-vintage-sport/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Sosete barbati ELEFANTUL GALBEN 1/2 – culori galben-negru",
+    "Pret": "25.00 lei",
+    "Link": "https://www.madammitza.com/produs/sosete-barbati-elefantul-galben-1-2-culori-galben-negru/",
+    "Site": "Madam Mitza socks",
+    "Site_URL": "https://www.madammitza.com/"
+  },
+  {
+    "Nume": "Set 8 perechi sosete bumbac pieptanat, DIN SERTAR clasic negre, pentru barbati, fara cusatura",
+    "Pret": "126,00 lei",
+    "Link": "https://dinsertar.ro/products/set-8-perechi-sosete-bumbac-pieptanat-din-sertar-clasic-negre-pentru-barbati-fara-cusatura",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 9 Perechi Sosete Scurte Barbati Colorate din Bumbac FUSION",
+    "Pret": "79,00 lei",
+    "Link": "https://dinsertar.ro/products/set-9-perechi-sosete-scurte-barbati-colorate-din-bumbac-fusion",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 12 perechi sosete medii barbati din bumbac pieptanat respirabile",
+    "Pret": "133,00 lei",
+    "Link": "https://dinsertar.ro/products/set-12-perechi-sosete-medii-barbati-din-bumbac-pieptanat-respirabile",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 6 Perechi Sosete Scurte Sport Barbati din Bumbac Fara Cusatura, BAROS",
+    "Pret": "89,00 lei",
+    "Link": "https://dinsertar.ro/products/set-6-perechi-sosete-scurte-sport-barbati-din-bumbac-fara-cusatura-baros",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 3 perechi sosete lungi barbati din bumbac BAROS trio",
+    "Pret": "55,00 lei",
+    "Link": "https://dinsertar.ro/products/set-3-perechi-sosete-lungi-barbati-din-bumbac-baros-trio",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 9 perechi sosete sport barbati din bumbac BAROS trio",
+    "Pret": "79,00 lei",
+    "Link": "https://dinsertar.ro/products/set-9-perechi-sosete-sport-barbati-din-bumbac-baros-trio",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 3 perechi sosete lungi barbati din bumbac BAROS albe",
+    "Pret": "59,00 lei",
+    "Link": "https://dinsertar.ro/products/set-3-perechi-sosete-lungi-barbati-din-bumbac-baros-albe",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
+  },
+  {
+    "Nume": "Set 3 Perechi Sosete pentru Diabetici pentru Barbati TRIO",
+    "Pret": "101,50 lei",
+    "Link": "https://dinsertar.ro/products/set-3-perechi-sosete-pentru-diabetici-pentru-barbati-trio",
+    "Site": "Din Sertar | Magazin Sosete & Lenjerie",
+    "Site_URL": "https://dinsertar.ro/"
   }
 ]

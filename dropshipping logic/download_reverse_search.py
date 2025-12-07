@@ -101,7 +101,7 @@ def search_and_download_images(search_term, base_name, num_images=100, save_fold
         # Scroll down to load more images
         scroll_down(driver, scroll_pause_time=2, scroll_limit=15)
         
-        print("   🔎 Scrape imagini...")
+        print("   Cautare...")
         # Scrape all images
         image_urls = scrape_all_images(driver)
         

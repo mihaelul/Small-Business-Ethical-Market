@@ -1,7 +1,3 @@
-"""
-CLIP-based image comparison for more accurate similarity detection
-Uses OpenAI's CLIP model for semantic image comparison
-"""
 
 import os
 import clip
@@ -19,14 +15,14 @@ _clip_device = None
 
 
 def load_clip_model():
-    """Load CLIP model (only once, reuse for all comparisons)"""
+   
     global _clip_model, _clip_preprocess, _clip_device
     
     if _clip_model is None:
         _clip_device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"   🤖 Loading CLIP model on {_clip_device}...")
+        print(f"    Loading CLIP model on {_clip_device}...")
         _clip_model, _clip_preprocess = clip.load("ViT-B/32", device=_clip_device)
-        print(f"   ✅ CLIP model loaded")
+        print(f"    CLIP model loaded")
     
     return _clip_model, _clip_preprocess, _clip_device
 
@@ -53,7 +49,7 @@ def get_embedding(image_path, model=None, preprocess=None, device=None):
         
         return embedding.cpu().numpy().flatten()
     except Exception as e:
-        print(f"   ⚠️  Error getting embedding for {image_path}: {e}")
+        print(f"   Error getting embedding for {image_path}: {e}")
         return None
 
 
@@ -97,16 +93,7 @@ def compare_images_clip(original_image_path, search_result_paths, similarity_thr
         original_image_path: Path to original image
         search_result_paths: List of paths to search result images
         similarity_threshold: Minimum similarity for match (0-1)
-    
-    Returns:
-        dict: {
-            'exact_matches': int,
-            'total_compared': int,
-            'is_dropshipping': bool,
-            'match_ratio': float,
-            'similarities': list,
-            'match_details': list
-        }
+
     """
     if not os.path.exists(original_image_path):
         return {
@@ -165,10 +152,10 @@ def compare_images_clip(original_image_path, search_result_paths, similarity_thr
             
             if sim >= similarity_threshold:
                 exact_matches += 1
-                print(f"      ✅ Match found: {os.path.basename(result_path)} (similarity: {sim:.4f}, confidence: {score:.2f}%)")
+                print(f" Match found: {os.path.basename(result_path)} (similarity: {sim:.4f}, confidence: {score:.2f}%)")
         
         except Exception as e:
-            print(f"      ⚠️  Error comparing {result_path}: {e}")
+            print(f"    Error comparing {result_path}: {e}")
             continue
     
     match_ratio = exact_matches / total_compared if total_compared > 0 else 0.0
@@ -219,7 +206,7 @@ def reverse_image_search_clip(image_folder, query_image, top_k=5):
     embeddings = []
     paths = []
     
-    print(f"   📊 Processing images in {image_folder}...")
+    print(f"    Processing images in {image_folder}...")
     for filename in os.listdir(image_folder):
         if filename.lower().endswith((".jpg", ".png", ".jpeg")):
             full_path = os.path.join(image_folder, filename)
@@ -229,7 +216,7 @@ def reverse_image_search_clip(image_folder, query_image, top_k=5):
                 paths.append(full_path)
     
     if not embeddings:
-        print("   ⚠️  No valid images found in folder")
+        print("     No valid images found in folder")
         return []
     
     embeddings = np.vstack(embeddings)

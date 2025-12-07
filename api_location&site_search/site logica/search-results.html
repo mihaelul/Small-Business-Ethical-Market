@@ -50,7 +50,7 @@
           </button>
         </form>
 
-        <a href="main2.html" class="cosul-meu" aria-label="View shopping cart">
+        <a href="buy.html" class="cosul-meu" aria-label="View shopping cart">
           <img class="basket-icon" src="assets/bascket.svg" alt="Basket-icon" />
           <span class="nav-link-text nav-link-text--cart">COȘUL MEU</span>
         </a>
@@ -74,6 +74,38 @@
         <h2 class="section-heading section-heading--medium" id="results-title">
           SEARCH RESULTS
         </h2>
+        
+        <!-- Price Filter -->
+        <div class="price-filter-container" id="price-filter-container" style="display: none;">
+          <div class="price-filter">
+            <label for="price-min" class="price-filter-label">Preț minim (Lei):</label>
+            <input
+              type="number"
+              id="price-min"
+              class="price-filter-input"
+              placeholder="0"
+              min="0"
+              step="0.01"
+            />
+            <span class="price-filter-separator">-</span>
+            <label for="price-max" class="price-filter-label">Preț maxim (Lei):</label>
+            <input
+              type="number"
+              id="price-max"
+              class="price-filter-input"
+              placeholder="∞"
+              min="0"
+              step="0.01"
+            />
+            <button type="button" id="apply-filter-btn" class="apply-filter-btn">
+              Aplică filtru
+            </button>
+            <button type="button" id="clear-filter-btn" class="clear-filter-btn">
+              Șterge filtru
+            </button>
+          </div>
+        </div>
+
         <div
           class="product-grid"
           id="products-grid"
@@ -107,9 +139,29 @@
           font-weight: 500;
           color: #813e2f;
           font-size: 18px;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
           line-height: 1.4;
           word-wrap: break-word;
+        }
+
+        .product-box-rating {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin: 0 0 12px 0;
+        }
+
+        .product-box-rating-stars {
+          display: flex;
+          gap: 2px;
+          color: var(--color-star);
+          font-size: 16px;
+        }
+
+        .product-box-rating-value {
+          font-family: var(--font-body);
+          font-size: 14px;
+          color: var(--color-text-secondary);
         }
 
         .product-box-price {
@@ -117,7 +169,139 @@
           font-weight: 700;
           color: #813e2f;
           font-size: 20px;
-          margin: 0;
+          margin: 0 0 12px 0;
+        }
+
+        .product-box-actions {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .basket-button {
+          background-color: var(--color-text-primary);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 8px 16px;
+          cursor: pointer;
+          font-family: var(--font-body);
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .basket-button:hover {
+          background-color: var(--color-button-hover);
+          transform: translateY(-2px);
+        }
+
+        .basket-button:active {
+          transform: translateY(0);
+        }
+
+        .basket-button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .basket-button img {
+          width: 18px;
+          height: 18px;
+        }
+
+        /* Price Filter Styles */
+        .price-filter-container {
+          margin: 30px 0;
+          padding: 20px;
+          background: var(--color-bg-card);
+          border-radius: 15px;
+          box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-filter {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          flex-wrap: wrap;
+        }
+
+        .price-filter-label {
+          font-family: var(--font-body-semibold);
+          font-size: 16px;
+          color: var(--color-text-primary);
+          white-space: nowrap;
+        }
+
+        .price-filter-input {
+          padding: 10px 15px;
+          border: 2px solid var(--color-bg-placeholder);
+          border-radius: 8px;
+          font-family: var(--font-body);
+          font-size: 16px;
+          color: var(--color-text-primary);
+          width: 120px;
+          transition: border-color 0.2s ease;
+        }
+
+        .price-filter-input:focus {
+          outline: none;
+          border-color: var(--color-text-secondary);
+        }
+
+        .price-filter-separator {
+          font-family: var(--font-body-bold);
+          font-size: 18px;
+          color: var(--color-text-primary);
+        }
+
+        .apply-filter-btn,
+        .clear-filter-btn {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 8px;
+          font-family: var(--font-body-semibold);
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .apply-filter-btn {
+          background-color: var(--color-bg-secondary);
+          color: var(--color-text-white);
+        }
+
+        .apply-filter-btn:hover {
+          background-color: var(--color-button-hover);
+          transform: translateY(-2px);
+        }
+
+        .clear-filter-btn {
+          background-color: var(--color-bg-placeholder);
+          color: var(--color-text-primary);
+        }
+
+        .clear-filter-btn:hover {
+          background-color: #c0c0c0;
+          transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+          .price-filter {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .price-filter-input {
+            width: 100%;
+          }
+
+          .price-filter-separator {
+            display: none;
+          }
         }
       </style>
     </div>
@@ -130,69 +314,97 @@
         const searchFormNav = document.querySelector("#search-form-nav");
         const productsGrid = document.getElementById("products-grid");
         const resultsTitle = document.getElementById("results-title");
+        const priceFilterContainer = document.getElementById("price-filter-container");
+        const priceMinInput = document.getElementById("price-min");
+        const priceMaxInput = document.getElementById("price-max");
+        const applyFilterBtn = document.getElementById("apply-filter-btn");
+        const clearFilterBtn = document.getElementById("clear-filter-btn");
 
-        // Obține keyword-ul din URL sau localStorage
+        // Store all products for filtering
+        let allProducts = [];
+
+        // Get search keyword from URL or localStorage
         const urlParams = new URLSearchParams(window.location.search);
         let keyword =
           urlParams.get("q") || localStorage.getItem("searchKeyword") || "";
 
-        // Setează valoarea în câmpul de căutare
         if (keyword) {
           searchInputNav.value = keyword;
         }
 
-        // Funcție pentru formatarea prețului
+        // Format price: returns value directly from database without reformatting
         function formatPrice(priceString) {
           if (!priceString || typeof priceString !== "string") {
-            return priceString || "Preț indisponibil";
+            return "Preț indisponibil";
           }
-
-          const parts = priceString.trim().split(/\s+/);
-          const currency = parts.slice(1).join(" ") || "";
-          const pricePart = parts[0];
-
-          if (pricePart.includes(",")) {
-            const [integerPart, decimalPart] = pricePart.split(",");
-            if (decimalPart === "00") {
-              return integerPart + (currency ? " " + currency : "");
-            }
-            return pricePart + (currency ? " " + currency : "");
-          }
-
-          if (pricePart.includes(".")) {
-            const digitsOnly = pricePart.replace(/\./g, "");
-            if (digitsOnly.length >= 3) {
-              const lastTwo = digitsOnly.slice(-2);
-              const rest = digitsOnly.slice(0, -2);
-              if (lastTwo === "00") {
-                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                return formatted + (currency ? " " + currency : "");
-              } else {
-                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                return (
-                  formatted + "," + lastTwo + (currency ? " " + currency : "")
-                );
-              }
-            }
-          }
-
-          const digitsOnly = pricePart.replace(/\D/g, "");
-          if (digitsOnly.length >= 2) {
-            const lastTwo = digitsOnly.slice(-2);
-            const rest = digitsOnly.slice(0, -2);
-            if (lastTwo === "00") {
-              return rest || "0" + (currency ? " " + currency : "");
-            } else {
-              return (
-                (rest || "0") + "," + lastTwo + (currency ? " " + currency : "")
-              );
-            }
-          }
-
-          return priceString;
+          return priceString.trim();
         }
 
-        // Funcție pentru crearea cadranului de produs
+        // Parse price string to number for filtering
+        function parsePrice(priceString) {
+          if (!priceString || typeof priceString !== "string") {
+            return null;
+          }
+
+          let cleaned = priceString
+            .replace(/Lei/gi, "")
+            .replace(/\s/g, "")
+            .trim();
+
+          cleaned = cleaned.replace(",", ".");
+          const price = parseFloat(cleaned);
+
+          if (isNaN(price) || price < 0) {
+            return null;
+          }
+
+          return price;
+        }
+        async function addToCart(product) {
+          const basketButton = event.target.closest('.basket-button');
+          if (basketButton) {
+            basketButton.disabled = true;
+            basketButton.textContent = 'Se adaugă...';
+          }
+
+          try {
+            const response = await fetch("/api/cart/add", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(product),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              alert("Produs adăugat în coș cu succes!");
+              if (basketButton) {
+                basketButton.textContent = 'Adăugat ✓';
+                setTimeout(() => {
+                  basketButton.disabled = false;
+                  basketButton.innerHTML = '<img src="assets/bascket.svg" alt="Basket" /> Adaugă în coș';
+                }, 2000);
+              }
+            } else {
+              alert("Eroare: " + (data.error || "Nu s-a putut adăuga produsul în coș"));
+              if (basketButton) {
+                basketButton.disabled = false;
+                basketButton.innerHTML = '<img src="assets/bascket.svg" alt="Basket" /> Adaugă în coș';
+              }
+            }
+          } catch (error) {
+            console.error("Eroare la adăugarea în coș:", error);
+            alert("Eroare la adăugarea produsului în coș. Verifică conexiunea la server.");
+            if (basketButton) {
+              basketButton.disabled = false;
+              basketButton.innerHTML = '<img src="assets/bascket.svg" alt="Basket" /> Adaugă în coș';
+            }
+          }
+        }
+
+        // Create product card element
         function createProductCard(product) {
           const div = document.createElement("div");
           div.className = "product-box";
@@ -200,22 +412,86 @@
           const productName = product.Nume || "Produs fără nume";
           const productPrice = formatPrice(product.Pret) || "Preț indisponibil";
 
+          // Generate rating display
+          let ratingHTML = "";
+          if (product.Rating !== null && product.Rating !== undefined) {
+            const rating = parseFloat(product.Rating);
+            if (!isNaN(rating) && rating > 0) {
+              const fullStars = Math.floor(rating);
+              const hasHalfStar = rating % 1 >= 0.5;
+              const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+              
+              let starsHTML = "";
+              for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<span class="star">★</span>';
+              }
+              if (hasHalfStar) {
+                starsHTML += '<span class="star" style="opacity: 0.5;">★</span>';
+              }
+              for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<span class="star" style="opacity: 0.2;">★</span>';
+              }
+              
+              ratingHTML = `
+                <div class="product-box-rating">
+                  <div class="product-box-rating-stars">${starsHTML}</div>
+                  <span class="product-box-rating-value">(${rating.toFixed(1)})</span>
+                </div>
+              `;
+            }
+          }
+
           div.innerHTML = `
             <div class="product-box-name">${productName}</div>
+            ${ratingHTML}
             <div class="product-box-price">${productPrice}</div>
+            <div class="product-box-actions">
+              <button class="basket-button" type="button" aria-label="Add to cart">
+                <img src="assets/bascket.svg" alt="Basket" />
+                Adaugă în coș
+              </button>
+            </div>
           `;
 
-          // Click pe cadran pentru a deschide produsul
-          div.addEventListener("click", () => {
-            localStorage.setItem("selectedProduct", JSON.stringify(product));
-            window.location.href = "product.html";
+          // Open product page on card click (but not on button)
+          div.addEventListener("click", (e) => {
+            if (!e.target.closest(".basket-button")) {
+              localStorage.setItem("selectedProduct", JSON.stringify(product));
+              window.location.href = "product.html";
+            }
+          });
+
+          const basketButton = div.querySelector(".basket-button");
+          basketButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            addToCart(product);
           });
 
           return div;
         }
 
-        // Funcție pentru afișarea produselor
-        function displayProducts(productsArray, searchKeyword) {
+        // Filter products by price range
+        function filterProductsByPrice(products, minPrice, maxPrice) {
+          if (minPrice === null && maxPrice === null) {
+            return products;
+          }
+
+          return products.filter((product) => {
+            const productPrice = parsePrice(product.Pret);
+
+            if (productPrice === null) {
+              return false;
+            }
+
+            const meetsMin = minPrice === null || productPrice >= minPrice;
+            const meetsMax = maxPrice === null || productPrice <= maxPrice;
+
+            return meetsMin && meetsMax;
+          });
+        }
+
+        // Display products with optional price filtering
+        function displayProducts(productsArray, searchKeyword, applyPriceFilter = false) {
           productsGrid.innerHTML = "";
 
           if (searchKeyword) {
@@ -224,19 +500,40 @@
             resultsTitle.textContent = "SEARCH RESULTS";
           }
 
-          if (productsArray.length === 0) {
-            productsGrid.innerHTML =
-              '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Nu s-au găsit produse pentru căutarea ta.</div>';
+          if (!applyPriceFilter) {
+            allProducts = productsArray;
+          }
+
+          let productsToDisplay = productsArray;
+          if (applyPriceFilter) {
+            const minPrice = priceMinInput.value ? parseFloat(priceMinInput.value) : null;
+            const maxPrice = priceMaxInput.value ? parseFloat(priceMaxInput.value) : null;
+            productsToDisplay = filterProductsByPrice(allProducts, minPrice, maxPrice);
+          }
+
+          if (allProducts.length > 0) {
+            priceFilterContainer.style.display = "block";
+          } else {
+            priceFilterContainer.style.display = "none";
+          }
+
+          if (productsToDisplay.length === 0) {
+            if (applyPriceFilter) {
+              productsGrid.innerHTML =
+                '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Nu s-au găsit produse în acest interval de preț.</div>';
+            } else {
+              productsGrid.innerHTML =
+                '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Nu s-au găsit produse pentru căutarea ta.</div>';
+            }
             return;
           }
 
-          // Creează un cadran pentru fiecare produs
-          productsArray.forEach((product) => {
+          productsToDisplay.forEach((product) => {
             productsGrid.appendChild(createProductCard(product));
           });
         }
 
-        // Funcție pentru căutarea produselor
+        // Search products via API
         async function searchProducts(searchKeyword) {
           if (!searchKeyword || searchKeyword.trim() === "") {
             productsGrid.innerHTML =
@@ -244,7 +541,6 @@
             return;
           }
 
-          // Afișează mesaj de încărcare
           productsGrid.innerHTML =
             '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Căutare în curs...</div>';
 
@@ -271,7 +567,6 @@
           }
         }
 
-        // Event listener pentru căutare în nav
         searchFormNav.addEventListener("submit", (e) => {
           e.preventDefault();
           const keyword = searchInputNav.value.trim();
@@ -283,7 +578,6 @@
           }
         });
 
-        // Event listener pentru Enter în câmpul de căutare
         searchInputNav.addEventListener("keypress", (e) => {
           if (e.key === "Enter") {
             e.preventDefault();
@@ -291,7 +585,47 @@
           }
         });
 
-        // Căutare automată la încărcarea paginii
+        applyFilterBtn.addEventListener("click", () => {
+          const minPrice = priceMinInput.value ? parseFloat(priceMinInput.value) : null;
+          const maxPrice = priceMaxInput.value ? parseFloat(priceMaxInput.value) : null;
+
+          if (minPrice !== null && maxPrice !== null && minPrice > maxPrice) {
+            alert("Prețul minim nu poate fi mai mare decât prețul maxim!");
+            return;
+          }
+
+          if (minPrice !== null && minPrice < 0) {
+            alert("Prețul minim nu poate fi negativ!");
+            return;
+          }
+
+          if (maxPrice !== null && maxPrice < 0) {
+            alert("Prețul maxim nu poate fi negativ!");
+            return;
+          }
+
+          displayProducts(allProducts, keyword, true);
+        });
+
+        clearFilterBtn.addEventListener("click", () => {
+          priceMinInput.value = "";
+          priceMaxInput.value = "";
+          displayProducts(allProducts, keyword, false);
+        });
+
+        priceMinInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            applyFilterBtn.click();
+          }
+        });
+
+        priceMaxInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            applyFilterBtn.click();
+          }
+        });
         if (keyword) {
           await searchProducts(keyword);
         } else {

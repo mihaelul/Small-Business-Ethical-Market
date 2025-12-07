@@ -1,34 +1,28 @@
 const sql = require('mssql');
 
-// Verifică dacă se folosește Windows Authentication
 const useWindowsAuth = process.env.DB_USE_WINDOWS_AUTH === 'true' || process.env.DB_USE_WINDOWS_AUTH === '1';
 
-// Obține serverul și portul (dacă este specificat)
 let serverName = process.env.DB_SERVER || 'localhost';
 const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : undefined;
 
-// Normalizează serverul: .\SQLEXPRESS2 sau .\INSTANCE -> localhost\INSTANCE
-// mssql nu acceptă .\ pentru localhost
 if (serverName.startsWith('.\\')) {
-    const instanceName = serverName.substring(2); // Elimină .\
+    const instanceName = serverName.substring(2);
     serverName = `localhost\\${instanceName}`;
-    console.log(`⚠️  Server normalizat: ${serverName}`);
+    console.log(`Server normalizat: ${serverName}`);
 } else if (serverName.startsWith('.')) {
-    // Dacă e doar . sau .\ fără instance
     serverName = 'localhost';
 }
 
-// Configurare conexiune SQL Server
 const dbConfig = {
     server: serverName,
     database: process.env.DB_NAME || 'mockup',
     options: {
-        encrypt: process.env.DB_ENCRYPT === 'true', // Folosește true pentru Azure
-        trustServerCertificate: true, // Pentru development
+        encrypt: process.env.DB_ENCRYPT === 'true',
+        trustServerCertificate: true,
         enableArithAbort: true,
-        instanceName: process.env.DB_INSTANCE || undefined // Pentru named instances
+        instanceName: process.env.DB_INSTANCE || undefined
     },
-    connectionTimeout: 60000, // 60 secunde timeout (mărit pentru named instances)
+    connectionTimeout: 60000,
     requestTimeout: 30000,
     pool: {
         max: 10,
@@ -37,35 +31,25 @@ const dbConfig = {
     }
 };
 
-// Adaugă port dacă este specificat
 if (port) {
     dbConfig.port = port;
 }
 
-// Pentru Windows Authentication, nu includem user/password
-// Pentru SQL Authentication, adăugăm user/password
 if (!useWindowsAuth) {
     dbConfig.user = process.env.DB_USER || 'sa';
     dbConfig.password = process.env.DB_PASSWORD || '';
 }
-// Dacă useWindowsAuth este true, nu includem user/password
-// mssql va folosi automat Windows Authentication
 
 let pool = null;
 
-/**
- * Conectează la baza de date SQL Server
- * @returns {Promise<sql.ConnectionPool>} Pool-ul de conexiuni
- */
 async function connect() {
     try {
         if (!pool) {
-            // Log configurația (fără parolă)
             const configForLog = { ...dbConfig };
             if (configForLog.password) {
                 configForLog.password = '***';
             }
-            console.log('🔌 Încercare conectare la SQL Server...');
+            console.log(' Incercare conectare la SQL Server...');
             console.log(`   Server: ${dbConfig.server}`);
             if (dbConfig.port) {
                 console.log(`   Port: ${dbConfig.port}`);
@@ -76,13 +60,11 @@ async function connect() {
             console.log(`   Database: ${dbConfig.database}`);
             console.log(`   Windows Auth: ${useWindowsAuth ? 'DA' : 'NU'}`);
             
-            // Pentru named instances, încercăm mai multe variante
             try {
                 pool = await sql.connect(dbConfig);
             } catch (firstError) {
-                // Dacă eșuează și avem named instance, încercăm fără instanceName în options
                 if (serverName.includes('\\') && dbConfig.options.instanceName) {
-                    console.log('   ⚠️  Reîncercare fără instanceName în options...');
+                    console.log('   Reincercare fara instanceName n options...');
                     const retryConfig = { ...dbConfig };
                     delete retryConfig.options.instanceName;
                     pool = await sql.connect(retryConfig);
@@ -90,11 +72,11 @@ async function connect() {
                     throw firstError;
                 }
             }
-            console.log('✅ Conectat la SQL Server');
+            console.log(' Conectat la SQL Server');
         }
         return pool;
     } catch (error) {
-        console.error('❌ Eroare la conectare la baza de date:', error.message);
+        console.error(' Eroare la conectare la baza de date:', error.message);
         console.error('   Verifică:');
         console.error('   - Serverul SQL Server rulează?');
         console.error('   - DB_SERVER este corect în .env?');
@@ -103,10 +85,6 @@ async function connect() {
     }
 }
 
-/**
- * Obține următorul ID disponibil pentru Businesses
- * @returns {Promise<number>} Următorul ID disponibil
- */
 async function getNextBusinessId() {
     try {
         await connect();
@@ -120,12 +98,6 @@ async function getNextBusinessId() {
     }
 }
 
-/**
- * Verifică dacă un business există deja (după Denumire și Adresa)
- * @param {string} name - Denumirea business-ului
- * @param {string} address - Adresa business-ului
- * @returns {Promise<boolean>} True dacă există, False altfel
- */
 async function businessExists(name, address) {
     try {
         await connect();
@@ -141,31 +113,20 @@ async function businessExists(name, address) {
     }
 }
 
-/**
- * Salvează un business în baza de date
- * @param {object} business - Obiectul business-ului
- * @returns {Promise<object>} Rezultatul operației { success: boolean, id: number }
- */
 async function saveBusiness(business) {
     try {
         await connect();
         
-        // Verifică dacă există deja
         const exists = await businessExists(business.name, business.address);
         if (exists) {
             return { success: false, skipped: true, reason: 'Business există deja' };
         }
 
-        // Obține următorul ID
         const nextId = await getNextBusinessId();
 
-        // Google Maps returnează rating 0-5, tabelul cere 0-5 (CHECK constraint)
-        // Păstrăm rating-ul în formatul 0-5
         let ratingValue = business.rating || 0;
-        // Asigură-te că rating-ul este în intervalul 0-5 (conform constraint-ului din tabel)
         ratingValue = Math.max(0, Math.min(5, ratingValue));
 
-        // Inserează business-ul
         await pool.request()
             .input('id', sql.Int, nextId)
             .input('denumire', sql.VarChar(150), business.name)
@@ -184,11 +145,6 @@ async function saveBusiness(business) {
     }
 }
 
-/**
- * Salvează mai multe business-uri în baza de date
- * @param {Array<object>} businesses - Lista de business-uri
- * @returns {Promise<object>} Statistici: { saved: number, skipped: number, errors: number }
- */
 async function saveBusinesses(businesses) {
     const stats = {
         saved: 0,
@@ -213,9 +169,362 @@ async function saveBusinesses(businesses) {
     return stats;
 }
 
-/**
- * Închide conexiunea la baza de date
- */
+async function tableExists(tableName) {
+    try {
+        await connect();
+        const result = await pool.request()
+            .input('tableName', sql.NVarChar(128), tableName)
+            .query(`
+                SELECT COUNT(*) AS Count 
+                FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_NAME = @tableName
+            `);
+        
+        return result.recordset[0].Count > 0;
+    } catch (error) {
+        console.error(`Eroare la verificarea existenței tabelului ${tableName}:`, error.message);
+        return false;
+    }
+}
+
+async function listAllTables() {
+    try {
+        await connect();
+        const result = await pool.request()
+            .query(`
+                SELECT TABLE_NAME 
+                FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_TYPE = 'BASE TABLE'
+                ORDER BY TABLE_NAME
+            `);
+        
+        return result.recordset.map(row => row.TABLE_NAME);
+    } catch (error) {
+        console.error('Eroare la listarea tabelelor:', error.message);
+        return [];
+    }
+}
+
+async function getNextProductId() {
+    try {
+        await connect();
+        const result = await pool.request()
+            .query('SELECT ISNULL(MAX([ID_Produs]), 0) + 1 AS NextID FROM [dbo].[Produse]');
+        
+        return result.recordset[0].NextID;
+    } catch (error) {
+        console.error('Eroare la obținerea următorului ID produs:', error.message);
+        const exists = await tableExists('Produse');
+        if (!exists) {
+            throw new Error('Tabelul Produse nu există în baza de date. Te rugăm să-l creezi mai întâi.');
+        }
+        throw error;
+    }
+}
+
+async function productExists(nume, link) {
+    try {
+        await connect();
+        const result = await pool.request()
+            .input('nume', sql.NVarChar(sql.MAX), nume)
+            .input('link', sql.NVarChar(sql.MAX), link)
+            .query('SELECT [ID_Produs] FROM [dbo].[Produse] WHERE [Nume] = @nume AND [Link] = @link');
+        
+        if (result.recordset.length > 0) {
+            return result.recordset[0].ID_Produs;
+        }
+        return null;
+    } catch (error) {
+        console.error('Eroare la verificarea existenței produsului:', error.message);
+        return null;
+    }
+}
+
+function cleanText(text) {
+    if (!text || typeof text !== 'string') {
+        return '';
+    }
+    
+    let cleaned = text.replace(/<[^>]*>/g, '');
+    
+    cleaned = cleaned.replace(/&nbsp;/g, ' ')
+                     .replace(/&amp;/g, '&')
+                     .replace(/&lt;/g, '<')
+                     .replace(/&gt;/g, '>')
+                     .replace(/&quot;/g, '"')
+                     .replace(/&#39;/g, "'");
+    
+    cleaned = cleaned.replace(/\s+/g, ' ').trim();
+    
+    return cleaned;
+}
+
+function extractProductName(text) {
+    if (!text || typeof text !== 'string') {
+        return 'Produs fără nume';
+    }
+    
+    if (text.includes('<')) {
+        const altMatch = text.match(/alt=["']([^"']+)["']/i);
+        if (altMatch && altMatch[1]) {
+            return cleanText(altMatch[1]);
+        }
+        
+        const cleaned = cleanText(text);
+        if (cleaned.length > 0) {
+            return cleaned;
+        }
+    }
+    
+    return cleanText(text) || 'Produs fără nume';
+}
+
+function cleanPrice(price) {
+    if (!price || typeof price !== 'string') {
+        return 'N/A';
+    }
+    
+    let cleaned = price.replace(/<[^>]*>/g, '');
+    
+    cleaned = cleaned.replace(/&nbsp;/g, ' ')
+                     .replace(/&amp;/g, '&')
+                     .replace(/&lt;/g, '<')
+                     .replace(/&gt;/g, '>')
+                     .replace(/&quot;/g, '"')
+                     .replace(/&#39;/g, "'");
+    
+    cleaned = cleaned.replace(/\s{2,}/g, ' ').trim();
+    
+    if (!cleaned || cleaned.length === 0) {
+        return 'N/A';
+    }
+    
+    if (cleaned.length > 50) {
+        cleaned = cleaned.substring(0, 50);
+    }
+    
+    return cleaned;
+}
+
+function truncateText(text, maxLength = 50) {
+    if (!text || typeof text !== 'string') {
+        return '';
+    }
+    
+    if (text.length <= maxLength) {
+        return text;
+    }
+    
+    const truncated = text.substring(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(' ');
+    
+    if (lastSpace > maxLength * 0.7) {
+        return truncated.substring(0, lastSpace) + '...';
+    }
+    
+    return truncated + '...';
+}
+
+async function getOrInsertProduct(product) {
+    try {
+        await connect();
+        
+        const cleanNume = truncateText(extractProductName(product.Nume || ''), 50);
+        const cleanPret = cleanPrice(product.Pret || 'N/A');
+        const cleanLink = cleanText(product.Link || '').substring(0, 200);
+        const cleanBusiness = truncateText(cleanText(product.Site || 'Necunoscut'), 150);
+        
+        if (!cleanNume || cleanNume === 'Produs fără nume' || cleanNume.length < 3) {
+            throw new Error('Numele produsului nu este valid sau conține doar HTML');
+        }
+        
+        const existingId = await productExists(cleanNume, cleanLink);
+        if (existingId !== null) {
+            return existingId;
+        }
+
+        const result = await pool.request()
+            .input('nume', sql.NVarChar(50), cleanNume)
+            .input('pret', sql.NVarChar(50), cleanPret)
+            .input('link', sql.NVarChar(200), cleanLink || null)
+            .input('business', sql.NVarChar(150), cleanBusiness)
+            .query(`
+                INSERT INTO [dbo].[Produse] ([Nume], [Pret], [Link], [Business])
+                OUTPUT INSERTED.[ID_Produs]
+                VALUES (@nume, @pret, @link, @business)
+            `);
+
+        const insertedId = result.recordset[0].ID_Produs;
+        return insertedId;
+    } catch (error) {
+        console.error(`Eroare la inserarea/obținerea produsului "${product.Nume}":`, error.message);
+        throw error;
+    }
+}
+
+async function getAllProducts() {
+    try {
+        await connect();
+        const exists = await tableExists('Produse');
+        if (!exists) {
+            console.warn('⚠️  Tabelul Produse nu există. Returnez array gol.');
+            const tables = await listAllTables();
+            console.log('📋 Tabele disponibile în baza de date:', tables.join(', '));
+            return [];
+        }
+        
+        const result = await pool.request()
+            .query('SELECT [ID_Produs], [Nume], [Pret], [Link], [Business] FROM [dbo].[Produse] ORDER BY [ID_Produs] DESC');
+        
+        return result.recordset.map(row => ({
+            ID_produs: row.ID_Produs,
+            Nume: row.Nume,
+            Pret: row.Pret,
+            Link: row.Link,
+            Site: row.Business,
+            Site_URL: null
+        }));
+    } catch (error) {
+        console.error('Eroare la obținerea produselor:', error.message);
+        try {
+            const tables = await listAllTables();
+            console.log('📋 Tabele disponibile în baza de date:', tables.join(', '));
+        } catch (listError) {
+        }
+        console.warn('⚠️  Returnez array gol din cauza erorii.');
+        return [];
+    }
+}
+
+async function getNextOrderId() {
+    try {
+        await connect();
+        const result = await pool.request()
+            .query('SELECT ISNULL(MAX([ID_Comanda]), 0) + 1 AS NextID FROM [dbo].[Comanda]');
+        
+        return result.recordset[0].NextID;
+    } catch (error) {
+        console.error('Eroare la obținerea următorului ID comandă:', error.message);
+        const exists = await tableExists('Comanda');
+        if (!exists) {
+            throw new Error('Tabelul Comanda nu există în baza de date. Te rugăm să-l creezi mai întâi.');
+        }
+        throw error;
+    }
+}
+
+async function createOrder(idProdus) {
+    try {
+        await connect();
+        
+        const productCheck = await pool.request()
+            .input('id_produs', sql.Int, idProdus)
+            .query('SELECT COUNT(*) AS Count FROM [dbo].[Produse] WHERE [ID_Produs] = @id_produs');
+        
+        if (productCheck.recordset[0].Count === 0) {
+            return { success: false, error: 'Produsul nu există' };
+        }
+
+        const result = await pool.request()
+            .input('id_produs', sql.Int, idProdus)
+            .query(`
+                INSERT INTO [dbo].[Comanda] ([ID_Produs])
+                OUTPUT INSERTED.[ID_Comanda]
+                VALUES (@id_produs)
+            `);
+
+        const insertedId = result.recordset[0].ID_Comanda;
+        return { success: true, id: insertedId };
+    } catch (error) {
+        console.error(`Eroare la crearea comenzii pentru produsul ${idProdus}:`, error.message);
+        return { success: false, error: error.message };
+    }
+}
+
+async function createOrders(productIds) {
+    const stats = {
+        created: 0,
+        errors: 0,
+        orderIds: []
+    };
+
+    for (const productId of productIds) {
+        const result = await createOrder(productId);
+        
+        if (result.success) {
+            stats.created++;
+            stats.orderIds.push(result.id);
+        } else {
+            stats.errors++;
+        }
+    }
+
+    return stats;
+}
+
+async function deleteOrder(orderId) {
+    try {
+        await connect();
+        
+        const orderCheck = await pool.request()
+            .input('id_comanda', sql.Int, orderId)
+            .query('SELECT COUNT(*) AS Count FROM [dbo].[Comanda] WHERE [ID_Comanda] = @id_comanda');
+        
+        if (orderCheck.recordset[0].Count === 0) {
+            return { success: false, error: 'Comanda nu există' };
+        }
+
+        await pool.request()
+            .input('id_comanda', sql.Int, orderId)
+            .query('DELETE FROM [dbo].[Comanda] WHERE [ID_Comanda] = @id_comanda');
+
+        return { success: true, message: 'Comandă ștearsă cu succes' };
+    } catch (error) {
+        console.error(`Eroare la ștergerea comenzii ${orderId}:`, error.message);
+        return { success: false, error: error.message };
+    }
+}
+
+async function getAllOrdersWithProducts() {
+    try {
+        await connect();
+        
+        const produseExists = await tableExists('Produse');
+        const comandaExists = await tableExists('Comanda');
+        
+        if (!produseExists || !comandaExists) {
+            console.warn('⚠️  Tabelele Produse sau Comanda nu există. Returnez array gol.');
+            return [];
+        }
+        
+        const result = await pool.request()
+            .query(`
+                SELECT 
+                    c.[ID_Comanda],
+                    c.[ID_Produs],
+                    p.[Nume],
+                    p.[Pret],
+                    p.[Link],
+                    p.[Business] as Site
+                FROM [dbo].[Comanda] c
+                INNER JOIN [dbo].[Produse] p ON c.[ID_Produs] = p.[ID_Produs]
+                ORDER BY c.[ID_Comanda] DESC
+            `);
+        
+        return result.recordset.map(row => ({
+            ID_comanda: row.ID_Comanda,
+            ID_produs: row.ID_Produs,
+            Nume: row.Nume,
+            Pret: row.Pret,
+            Link: row.Link,
+            Site: row.Site
+        }));
+    } catch (error) {
+        console.error('Eroare la obținerea comenzilor:', error.message);
+        return [];
+    }
+}
+
 async function closeConnection() {
     try {
         if (pool) {
@@ -234,6 +543,14 @@ module.exports = {
     saveBusinesses,
     closeConnection,
     businessExists,
-    getNextBusinessId
+    getNextBusinessId,
+    getOrInsertProduct,
+    getAllProducts,
+    getNextOrderId,
+    createOrder,
+    createOrders,
+    deleteOrder,
+    getAllOrdersWithProducts,
+    tableExists,
+    listAllTables
 };
-

@@ -1,6 +1,6 @@
 "use strict";
 
-// Profile categories array
+// Available profile categories
 const profileCategories = [
   "Articole de îmbrăcăminte",
   "Electronice",
@@ -16,7 +16,7 @@ const profileCategories = [
   "Gradină și exterior",
 ];
 
-// Mock products data
+// Mock product data (for development/testing)
 const products = [
   {
     id: 1,
@@ -188,6 +188,6 @@ const products = [
   },
 ];
 
-// Make it accessible globally
+// Expose globally for use in HTML pages
 window.profileCategories = profileCategories;
 window.products = products;
