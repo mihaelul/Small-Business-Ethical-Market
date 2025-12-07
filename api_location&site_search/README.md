@@ -2,7 +2,7 @@
 
 Sistem simplu pentru căutarea business-urilor folosind Google Maps Places API.
 
-## 🚀 Instalare
+##  Instalare
 
 1. Instalează dependențele:
 ```bash
@@ -18,25 +18,7 @@ npm install
    GOOGLE_MAPS_API_KEY=your_api_key_here
    ```
 
-   **Pentru SQL Server - Windows Authentication (recomandat):**
-   ```
-   DB_SERVER=localhost
-   DB_NAME=mockup
-   DB_USE_WINDOWS_AUTH=true
-   DB_ENCRYPT=false
-   ```
-
-   **Pentru SQL Server - SQL Authentication:**
-   ```
-   DB_SERVER=localhost
-   DB_NAME=mockup
-   DB_USER=sa
-   DB_PASSWORD=your_password
-   DB_USE_WINDOWS_AUTH=false
-   DB_ENCRYPT=false
-   ```
-
-## 📖 Utilizare
+##  Utilizare
 
 ### Din command line:
 ```bash
@@ -46,20 +28,8 @@ node search.js "haine"
 node search.js "cafe"
 ```
 
-### Programatic:
-```javascript
-const { searchBusinesses } = require('./search');
 
-const results = await searchBusinesses(
-    'restaurant',           // Categoria
-    { lat: 44.4897, lng: 26.1186 },  // Locația
-    10000                   // Raza în metri (opțional)
-);
-
-console.log(results);
-```
-
-## 📋 Categorii Suportate
+##  Categorii Suportate
 
 - **Cărți**: `carti`, `bookstore`, `librarie`, `books`
 - **Mâncare**: `mancare`, `restaurant`, `food`, `pizza`, `pizzerie`
@@ -69,16 +39,15 @@ console.log(results);
 
 Sau poți folosi orice categorie - sistemul va căuta după keyword.
 
-## ⚙️ Configurare
+##  Configurare
 
 Poți modifica în `search.js`:
 - `MAX_RESULTS` - Numărul maxim de rezultate (default: 50)
 - Locația default
 - Raza de căutare
 
-## 📝 Note
+##  Note
 
 - Google Maps API returnează max 20 rezultate per request
 - Sistemul face automat paginare pentru a obține până la 50 de rezultate
-- Ai nevoie de un API key valid cu Places API activat
 
