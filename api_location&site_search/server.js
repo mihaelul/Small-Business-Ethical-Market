@@ -76,11 +76,15 @@ app.get('/api/products', async (req, res) => {
 
 // Rute pentru paginile HTML
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'site logica', 'main.html'));
+    res.sendFile(path.join(__dirname, 'site logica', 'main2.html'));
 });
 
 app.get('/main.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'site logica', 'main.html'));
+    res.sendFile(path.join(__dirname, 'site logica', 'main2.html'));
+});
+
+app.get('/main2.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'site logica', 'main2.html'));
 });
 
 app.get('/profile.html', (req, res) => {
@@ -89,6 +93,10 @@ app.get('/profile.html', (req, res) => {
 
 app.get('/product.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'site logica', 'product.html'));
+});
+
+app.get('/search-results.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'site logica', 'search-results.html'));
 });
 
 app.listen(PORT, () => {

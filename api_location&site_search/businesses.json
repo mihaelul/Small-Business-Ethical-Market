@@ -1,296 +1,226 @@
 [
   {
-    "Denumire": "BeerBikeBucharest",
-    "Adresa": "Bulevardul Hristo Botev 6, București",
-    "Rating": 3.4,
-    "Nr_Reviews": 5,
-    "Website": "http://www.beerbikebucharest.ro/"
-  },
-  {
-    "Denumire": "ProVelo magazin biciclete pliabile si electrice Bucuresti",
-    "Adresa": "Șoseaua Nicolae Titulescu 155, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 417,
-    "Website": "https://www.provelo.ro/"
-  },
-  {
-    "Denumire": "Mega Image EXPOZITIEI",
-    "Adresa": "Strada Aviator Traian Vasile, București",
-    "Rating": 3.9,
-    "Nr_Reviews": 933,
-    "Website": "http://www.mega-image.ro/"
-  },
-  {
-    "Denumire": "BikeXpert Mihalache",
-    "Adresa": "Bulevardul Ion Mihalache 126, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 168,
-    "Website": "https://www.bikexpert.ro/"
-  },
-  {
-    "Denumire": "ABA Mihai As",
-    "Adresa": "Strada Doamna Oltea 47, București",
-    "Rating": 5,
-    "Nr_Reviews": 2,
-    "Website": "https://www.neolifeshop.ro/popasilviuandrei"
-  },
-  {
-    "Denumire": "AfiSport",
-    "Adresa": "Șoseaua Virtuții 25, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 505,
-    "Website": "https://afisport.ro/"
-  },
-  {
-    "Denumire": "Giant Romania",
-    "Adresa": "Strada Traian 98, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 202,
-    "Website": "https://www.magazinuldebiciclete.ro/"
-  },
-  {
-    "Denumire": "Bicicletele BH",
-    "Adresa": "Calea Victoriei 20, București",
-    "Rating": 5,
-    "Nr_Reviews": 14,
-    "Website": "https://bicicletele.ro/"
-  },
-  {
-    "Denumire": "Livrator.ro I Service I Rent an electric bicycle",
-    "Adresa": "Str. Valea Lungă 58, București",
-    "Rating": 4.9,
-    "Nr_Reviews": 267,
-    "Website": "https://linkpages.pro/livrator"
-  },
-  {
-    "Denumire": "MOL",
-    "Adresa": "Calea 13 Septembrie 204-206A, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 463,
-    "Website": "https://molromania.ro/ro/"
-  },
-  {
-    "Denumire": "Sport Guru",
-    "Adresa": "Bulevardul Unirii 69, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 994,
-    "Website": "https://www.sportguru.ro/"
-  },
-  {
-    "Denumire": "Velopedia",
-    "Adresa": "Bulevardul Alexandru Ioan Cuza nr.17, București",
-    "Rating": 4.7,
-    "Nr_Reviews": 190,
-    "Website": "http://www.velopediashop.ro/"
-  },
-  {
-    "Denumire": "Service HubWorks",
-    "Adresa": "Strada Ion Minulescu 67-93, București",
-    "Rating": 5,
-    "Nr_Reviews": 117,
-    "Website": "http://hubworks.ro/"
-  },
-  {
-    "Denumire": "Bolt Market, Vitan",
-    "Adresa": "Strada Brânduşelor 2-4, București",
-    "Rating": 3,
-    "Nr_Reviews": 51,
-    "Website": "https://bolt.eu/food/market/"
-  },
-  {
-    "Denumire": "Mos Ion Roata - Bike and Ski Center",
-    "Adresa": "Șoseaua Ștefan cel Mare 15, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 288,
-    "Website": "http://www.mosionroata.ro/"
-  },
-  {
-    "Denumire": "DKBIKE - Freerider's Shop",
-    "Adresa": "Șoseaua Virtuții 46Bis, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 323,
-    "Website": "http://www.dkbike.ro/"
-  },
-  {
-    "Denumire": "BikeXpert Pantelimon",
-    "Adresa": "Șos. Pantelimon 94, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 365,
-    "Website": "http://www.bikexpert.ro/"
-  },
-  {
-    "Denumire": "Biciclete Leader Fox Romania",
-    "Adresa": "Strada Sfinții Apostoli 44, București",
-    "Rating": 5,
-    "Nr_Reviews": 22,
-    "Website": "http://www.leaderfox.ro/"
-  },
-  {
-    "Denumire": "Bikehub",
-    "Adresa": "Strada Amiral Horia Măcelariu 1-3, București",
-    "Rating": 4.9,
-    "Nr_Reviews": 77,
-    "Website": "http://bikehub.ro/"
-  },
-  {
-    "Denumire": "Biciclete ieftine",
-    "Adresa": "Șoseaua Dudești-Pantelimon nr. 44, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 25,
-    "Website": "https://biciclete-ieftine.ro/"
-  },
-  {
-    "Denumire": "Bike XCS",
-    "Adresa": "Strada Baba Novac 11A, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 266,
-    "Website": "https://www.bikexcs.ro/?utm_source=GMB&utm_medium=Organic"
-  },
-  {
-    "Denumire": "Bici Time",
-    "Adresa": "Incinta Complexului Sportiv Mazicon, Strada Bascov 14 - 18, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 148,
-    "Website": "http://www.magazinbicitime.ro/"
-  },
-  {
-    "Denumire": "Stonefeet - Sport Shop",
-    "Adresa": "Strada Ion Heliade Rădulescu 26, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 194,
-    "Website": "https://www.stonefeet.ro/"
-  },
-  {
-    "Denumire": "Teo Bikes",
-    "Adresa": "Bucharest",
-    "Rating": 4.7,
-    "Nr_Reviews": 139,
-    "Website": "http://www.teo-bikes.ro/"
-  },
-  {
-    "Denumire": "Revizia Bicicletei",
-    "Adresa": "Strada Popasului 34A, Voluntari",
-    "Rating": 4.9,
-    "Nr_Reviews": 200,
-    "Website": "https://reviziabicicletei.ro/"
-  },
-  {
-    "Denumire": "Bike House",
-    "Adresa": "Drumul Taberei 4, București",
-    "Rating": 4.3,
-    "Nr_Reviews": 424,
-    "Website": "http://www.bikehouse.ro/"
-  },
-  {
-    "Denumire": "Biciclop",
-    "Adresa": "Strada Tunari 36, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 172,
-    "Website": "https://www.biciclop.eu/"
-  },
-  {
-    "Denumire": "COBI Custom Bicycle",
-    "Adresa": "Strada Cuțitul de Argint 64, București",
-    "Rating": 4.8,
-    "Nr_Reviews": 186,
-    "Website": "https://www.cobibicycle.com/"
-  },
-  {
-    "Denumire": "Suportbicicleta.ro",
-    "Adresa": "Drumul Lunca Corbului 2, București",
-    "Rating": 4.8,
-    "Nr_Reviews": 102,
-    "Website": "https://suportbicicleta.ro/"
-  },
-  {
-    "Denumire": "Zmeu Bicle SRL",
-    "Adresa": "Calea Dorobanți 54, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 134,
-    "Website": "https://www.zmeu-bicle.ro/"
-  },
-  {
-    "Denumire": "Promenada Bucuresti",
-    "Adresa": "Calea Floreasca 246B, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 27681,
-    "Website": "https://promenada.ro/"
-  },
-  {
-    "Denumire": "Trotty",
-    "Adresa": "Șoseaua Giurgiului 37, București",
-    "Rating": 4.2,
-    "Nr_Reviews": 150,
-    "Website": "https://trotty.ro/"
-  },
-  {
-    "Denumire": "Estiverde.ro",
-    "Adresa": "Calea Plevnei 90, București",
-    "Rating": 4.9,
-    "Nr_Reviews": 19,
-    "Website": "https://estiverde.ro/"
-  },
-  {
-    "Denumire": "Bike XCS",
-    "Adresa": "Str. Nicolae G. Caramfil 34, București",
-    "Rating": 4.5,
-    "Nr_Reviews": 174,
-    "Website": "https://www.bikexcs.ro/"
-  },
-  {
-    "Denumire": "Xtreme Riders - Service biciclete, ski, snowboard",
-    "Adresa": "Complex comercial București Construct, Bulevardul Timișoara 103-111, București",
-    "Rating": 3.6,
-    "Nr_Reviews": 63,
-    "Website": "http://www.xtremeriders.ro/"
-  },
-  {
-    "Denumire": "Fix Your Bike",
-    "Adresa": "Strada Gramont 36, București",
-    "Rating": 4.6,
-    "Nr_Reviews": 79,
-    "Website": "http://www.fixyourbike.ro/"
-  },
-  {
-    "Denumire": "BitaColor",
-    "Adresa": "Atelierul BițaColor, Bulevardul Carol I 53, București",
-    "Rating": 5,
-    "Nr_Reviews": 31,
-    "Website": "http://www.bitacolor.ro/"
-  },
-  {
-    "Denumire": "Vexio",
-    "Adresa": "Strada Oxigenului 1h, București",
-    "Rating": 3.9,
-    "Nr_Reviews": 4801,
-    "Website": "http://www.vexio.ro/"
-  },
-  {
-    "Denumire": "FixYourBikeShop",
-    "Adresa": "Aleea Fetești 2, București",
+    "Denumire": "Fag-shop.ro Magazin on-line Bricolaj",
+    "Adresa": "Strada Soldat Petre M. Tină 5, București",
     "Rating": 5,
     "Nr_Reviews": 4,
-    "Website": "https://sites.google.com/view/fixyourbikeshop/contact"
+    "Website": "https://fag-shop.ro/"
   },
   {
-    "Denumire": "Hervis",
-    "Adresa": "Bulevardul Pierre de Coubertin 3-5, București",
+    "Denumire": "PREZENT STUDIO",
+    "Adresa": "Strada Baia de Aramă, București",
+    "Rating": 5,
+    "Nr_Reviews": 20,
+    "Website": "http://prezent.studio/"
+  },
+  {
+    "Denumire": "DECOLANDIA",
+    "Adresa": "Strada Constantin Aricescu 18, București",
+    "Rating": 4.9,
+    "Nr_Reviews": 32,
+    "Website": "https://www.decolandia.ro/"
+  },
+  {
+    "Denumire": "Franke Bauformat Kitchen Design",
+    "Adresa": "Strada Viitorului nr. 182, București",
+    "Rating": 4.9,
+    "Nr_Reviews": 62,
+    "Website": "http://www.bucatariibauformat.ro/"
+  },
+  {
+    "Denumire": "Decor pentru copii",
+    "Adresa": "Strada Mihai Eminescu 40, București",
+    "Rating": 4.8,
+    "Nr_Reviews": 18,
+    "Website": "http://decorpentrucopii.ro/"
+  },
+  {
+    "Denumire": "INTTECH INDUSTRY - Pipera",
+    "Adresa": "Bulevardul Pipera 37, Voluntari",
+    "Rating": 4.8,
+    "Nr_Reviews": 51,
+    "Website": "http://www.irrishop.ro/"
+  },
+  {
+    "Denumire": "Horecamag",
+    "Adresa": "Strada Agricultori 113, sector 2 corp 2, et. 1, lot 2, București",
+    "Rating": 4.7,
+    "Nr_Reviews": 20,
+    "Website": "http://www.horecamag.ro/"
+  },
+  {
+    "Denumire": "Pro Dias",
+    "Adresa": "Strada Avrig 29b, București",
+    "Rating": 4.8,
+    "Nr_Reviews": 245,
+    "Website": "http://totuldespreusi.ro/contact.html"
+  },
+  {
+    "Denumire": "Kuul",
+    "Adresa": "Strada Tudor Arghezi 8-10, București",
+    "Rating": 4.5,
+    "Nr_Reviews": 2,
+    "Website": "http://kuul.ro/"
+  },
+  {
+    "Denumire": "DEPOZIT MATERIALE SC COMLAR IMPEX 96 SRL",
+    "Adresa": "Șoseaua Fundeni, Dobroești",
+    "Rating": 4.6,
+    "Nr_Reviews": 66,
+    "Website": "http://www.comlar.ro/"
+  },
+  {
+    "Denumire": "Trady 2000",
+    "Adresa": "Calea Călărași 114, București",
+    "Rating": 4.5,
+    "Nr_Reviews": 135,
+    "Website": "http://www.trady.ro/"
+  },
+  {
+    "Denumire": "Cripal Impex S.R.L.",
+    "Adresa": "Str. Județului 8, București",
+    "Rating": 4.5,
+    "Nr_Reviews": 137,
+    "Website": "http://www.cripal.ro/"
+  },
+  {
+    "Denumire": "SensoDays",
+    "Adresa": "Strada Bilciurești 20-22, București",
+    "Rating": 4.5,
+    "Nr_Reviews": 425,
+    "Website": "https://www.sensodays.ro/"
+  },
+  {
+    "Denumire": "Leroy Merlin",
+    "Adresa": "Parcul Comercial Colosseum, Șoseaua Chitilei 284-286, București",
+    "Rating": 4.6,
+    "Nr_Reviews": 11866,
+    "Website": "http://www.leroymerlin.ro/"
+  },
+  {
+    "Denumire": "Punct ridicare comenzi Leroy Merlin",
+    "Adresa": "Str. Peștilor, București",
+    "Rating": 4.3,
+    "Nr_Reviews": 6,
+    "Website": "https://www.leroymerlin.ro/"
+  },
+  {
+    "Denumire": "Home Expert Magazin",
+    "Adresa": "Calea Moșilor 51, București",
+    "Rating": 4.2,
+    "Nr_Reviews": 5,
+    "Website": "https://homeexpert-magazin.ro/"
+  },
+  {
+    "Denumire": "MobAmbient",
+    "Adresa": "Șoseaua Mihai Bravu 510, București",
+    "Rating": 4.3,
+    "Nr_Reviews": 128,
+    "Website": "https://mobambient-sofa.ro/contact"
+  },
+  {
+    "Denumire": "Darel Impex",
+    "Adresa": "Strada Ion Șahighian 4F, București",
+    "Rating": 4.2,
+    "Nr_Reviews": 358,
+    "Website": "http://www.darel.ro/"
+  },
+  {
+    "Denumire": "Heng Yuan Market",
+    "Adresa": "Bulevardul Iuliu Maniu 51, București",
+    "Rating": 4.3,
+    "Nr_Reviews": 426,
+    "Website": "https://www.listafirme.ro/heng-yuan-supercom-srl-38328537/"
+  },
+  {
+    "Denumire": "JYSK",
+    "Adresa": "Strada Mihail Sebastian 88, București",
+    "Rating": 4.3,
+    "Nr_Reviews": 2177,
+    "Website": "https://jysk.ro/magazinele/bucuresti/strada-mihail-sebastian?utm_source=google_maps&utm_medium=organic&utm_campaign=retail_store_W018"
+  },
+  {
+    "Denumire": "Dedeman",
+    "Adresa": "Șoseaua Colentina 426, București",
+    "Rating": 4.3,
+    "Nr_Reviews": 8877,
+    "Website": "https://www.dedeman.ro/"
+  },
+  {
+    "Denumire": "Germag",
+    "Adresa": "Strada Piața Amzei 15, București",
     "Rating": 4,
-    "Nr_Reviews": 763,
-    "Website": "http://www.hervis.ro/"
+    "Nr_Reviews": 12,
+    "Website": "http://www.germag.ro/"
   },
   {
-    "Denumire": "FunkInWheels",
-    "Adresa": "Strada Stelea Spătarul 13, București",
-    "Rating": 5,
-    "Nr_Reviews": 37,
-    "Website": "http://www.funkinwheels.com/"
+    "Denumire": "YALCO Romania",
+    "Adresa": "Șoseaua Pipera nr. 48, București",
+    "Rating": 4,
+    "Nr_Reviews": 324,
+    "Website": "http://www.yalco.ro/"
   },
   {
-    "Denumire": "Bike Explorer",
-    "Adresa": "Strada Mihail Petrescu 2A, București",
-    "Rating": 5,
-    "Nr_Reviews": 158,
-    "Website": "http://www.bikexplorer.ro/"
+    "Denumire": "LEMS",
+    "Adresa": "Vulcan Value Centre, Strada Mihail Sebastian 88, București",
+    "Rating": 4,
+    "Nr_Reviews": 510,
+    "Website": "http://www.lemet.ro/"
+  },
+  {
+    "Denumire": "MAM Bricolaj Ghencea",
+    "Adresa": "Prelungirea Ghencea 299, București",
+    "Rating": 4.1,
+    "Nr_Reviews": 637,
+    "Website": "https://mam-bricolaj.ro/"
+  },
+  {
+    "Denumire": "Specialistul Casei Tale- magazin bricolaj",
+    "Adresa": "Strada Nicolae Iorga 1a, Tunari",
+    "Rating": 3.6,
+    "Nr_Reviews": 14,
+    "Website": "https://www.specialistulcasei.ro/"
+  },
+  {
+    "Denumire": "Regency Company Morarilor",
+    "Adresa": "Șos. Morarilor 2, București",
+    "Rating": 3.8,
+    "Nr_Reviews": 506,
+    "Website": "http://www.regencycompany.ro/"
+  },
+  {
+    "Denumire": "Brico Depot Pantelimon",
+    "Adresa": "Șos. Vergului 20, București",
+    "Rating": 3.9,
+    "Nr_Reviews": 1775,
+    "Website": "https://www.bricodepot.ro/contact/pantelimon/"
+  },
+  {
+    "Denumire": "Brico Depot Orhideea",
+    "Adresa": "Calea Giulești 1-3, București",
+    "Rating": 3.8,
+    "Nr_Reviews": 2192,
+    "Website": "https://www.bricodepot.ro/contact/orhideea/"
+  },
+  {
+    "Denumire": "Brico Depot",
+    "Adresa": "Șoseaua Vitan-Bârzești 7A, București",
+    "Rating": 3.9,
+    "Nr_Reviews": 2665,
+    "Website": "https://www.bricodepot.ro/"
+  },
+  {
+    "Denumire": "MatHaus",
+    "Adresa": "Calea Vitan 112-114, București",
+    "Rating": 3.9,
+    "Nr_Reviews": 7262,
+    "Website": "https://mathaus.ro/?utm_source=google&utm_medium=local&utm_campaign=MatHausVitan"
+  },
+  {
+    "Denumire": "FRANKE SHOWROOM BUCURESTI",
+    "Adresa": "Calea Șerban Vodă 232-234, București",
+    "Rating": 3.6,
+    "Nr_Reviews": 62,
+    "Website": "http://www.showroomfrk.ro/"
   }
 ]

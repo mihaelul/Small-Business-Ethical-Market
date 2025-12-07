@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Search Results - Rio</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="main2.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Candal&family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="home">
+      <!-- Navigation -->
+      <nav class="nav-fundal" role="navigation">
+        <a
+          href="main2.html"
+          style="
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+          "
+        >
+          <img
+            class="burger-icon"
+            src="assets/burger.svg"
+            alt="Back to home"
+            style="cursor: pointer"
+          />
+        </a>
+
+        <form class="search-bar" role="search" id="search-form-nav">
+          <label for="search-input" class="visually-hidden"
+            >Search products</label
+          >
+          <input
+            type="search"
+            id="search-input"
+            name="search"
+            placeholder="Search"
+            aria-label="Search products"
+          />
+          <button type="submit" aria-label="Submit search">
+            <img src="assets/burger.svg" alt="Search" class="search-icon" />
+          </button>
+        </form>
+
+        <a href="main2.html" class="cosul-meu" aria-label="View shopping cart">
+          <img class="basket-icon" src="assets/bascket.svg" alt="Basket-icon" />
+          <span class="nav-link-text nav-link-text--cart">COȘUL MEU</span>
+        </a>
+
+        <a href="#favorites" class="favorite" aria-label="View favorites">
+          <img class="heart-icon" src="assets/heart.svg" alt="heart-icon" />
+          <span class="nav-link-text nav-link-text--favorite">FAVORITE</span>
+        </a>
+
+        <a
+          href="profile.html"
+          class="profile"
+          type="button"
+          aria-label="Open user profile"
+          style="text-decoration: none; display: block"
+        ></a>
+      </nav>
+
+      <!-- Search Results Section -->
+      <section class="products-section" style="padding-top: 120px">
+        <h2 class="section-heading section-heading--medium" id="results-title">
+          SEARCH RESULTS
+        </h2>
+        <div
+          class="product-grid"
+          id="products-grid"
+          style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))"
+        >
+          <!-- Products will be loaded dynamically -->
+        </div>
+      </section>
+
+      <style>
+        .product-box {
+          background-color: #ffffff;
+          border-radius: 12px;
+          padding: 24px;
+          box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 120px;
+        }
+
+        .product-box:hover {
+          transform: translateY(-4px);
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-box-name {
+          font-family: var(--font-body-medium);
+          font-weight: 500;
+          color: #813e2f;
+          font-size: 18px;
+          margin: 0 0 12px 0;
+          line-height: 1.4;
+          word-wrap: break-word;
+        }
+
+        .product-box-price {
+          font-family: var(--font-body-bold);
+          font-weight: 700;
+          color: #813e2f;
+          font-size: 20px;
+          margin: 0;
+        }
+      </style>
+    </div>
+
+    <script>
+      "use strict";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const searchInputNav = document.querySelector("#search-input");
+        const searchFormNav = document.querySelector("#search-form-nav");
+        const productsGrid = document.getElementById("products-grid");
+        const resultsTitle = document.getElementById("results-title");
+
+        // Obține keyword-ul din URL sau localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        let keyword =
+          urlParams.get("q") || localStorage.getItem("searchKeyword") || "";
+
+        // Setează valoarea în câmpul de căutare
+        if (keyword) {
+          searchInputNav.value = keyword;
+        }
+
+        // Funcție pentru formatarea prețului
+        function formatPrice(priceString) {
+          if (!priceString || typeof priceString !== "string") {
+            return priceString || "Preț indisponibil";
+          }
+
+          const parts = priceString.trim().split(/\s+/);
+          const currency = parts.slice(1).join(" ") || "";
+          const pricePart = parts[0];
+
+          if (pricePart.includes(",")) {
+            const [integerPart, decimalPart] = pricePart.split(",");
+            if (decimalPart === "00") {
+              return integerPart + (currency ? " " + currency : "");
+            }
+            return pricePart + (currency ? " " + currency : "");
+          }
+
+          if (pricePart.includes(".")) {
+            const digitsOnly = pricePart.replace(/\./g, "");
+            if (digitsOnly.length >= 3) {
+              const lastTwo = digitsOnly.slice(-2);
+              const rest = digitsOnly.slice(0, -2);
+              if (lastTwo === "00") {
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return formatted + (currency ? " " + currency : "");
+              } else {
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return (
+                  formatted + "," + lastTwo + (currency ? " " + currency : "")
+                );
+              }
+            }
+          }
+
+          const digitsOnly = pricePart.replace(/\D/g, "");
+          if (digitsOnly.length >= 2) {
+            const lastTwo = digitsOnly.slice(-2);
+            const rest = digitsOnly.slice(0, -2);
+            if (lastTwo === "00") {
+              return rest || "0" + (currency ? " " + currency : "");
+            } else {
+              return (
+                (rest || "0") + "," + lastTwo + (currency ? " " + currency : "")
+              );
+            }
+          }
+
+          return priceString;
+        }
+
+        // Funcție pentru crearea cadranului de produs
+        function createProductCard(product) {
+          const div = document.createElement("div");
+          div.className = "product-box";
+
+          const productName = product.Nume || "Produs fără nume";
+          const productPrice = formatPrice(product.Pret) || "Preț indisponibil";
+
+          div.innerHTML = `
+            <div class="product-box-name">${productName}</div>
+            <div class="product-box-price">${productPrice}</div>
+          `;
+
+          // Click pe cadran pentru a deschide produsul
+          div.addEventListener("click", () => {
+            localStorage.setItem("selectedProduct", JSON.stringify(product));
+            window.location.href = "product.html";
+          });
+
+          return div;
+        }
+
+        // Funcție pentru afișarea produselor
+        function displayProducts(productsArray, searchKeyword) {
+          productsGrid.innerHTML = "";
+
+          if (searchKeyword) {
+            resultsTitle.textContent = `SEARCH RESULTS FOR "${searchKeyword.toUpperCase()}"`;
+          } else {
+            resultsTitle.textContent = "SEARCH RESULTS";
+          }
+
+          if (productsArray.length === 0) {
+            productsGrid.innerHTML =
+              '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Nu s-au găsit produse pentru căutarea ta.</div>';
+            return;
+          }
+
+          // Creează un cadran pentru fiecare produs
+          productsArray.forEach((product) => {
+            productsGrid.appendChild(createProductCard(product));
+          });
+        }
+
+        // Funcție pentru căutarea produselor
+        async function searchProducts(searchKeyword) {
+          if (!searchKeyword || searchKeyword.trim() === "") {
+            productsGrid.innerHTML =
+              '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Introduceți un termen de căutare.</div>';
+            return;
+          }
+
+          // Afișează mesaj de încărcare
+          productsGrid.innerHTML =
+            '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Căutare în curs...</div>';
+
+          try {
+            const response = await fetch("/api/search", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ keyword: searchKeyword.trim() }),
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.products) {
+              displayProducts(data.products, searchKeyword);
+            } else {
+              displayProducts([], searchKeyword);
+            }
+          } catch (error) {
+            console.error("Eroare la căutare:", error);
+            productsGrid.innerHTML =
+              '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Eroare la căutare. Verifică dacă serverul rulează.</div>';
+          }
+        }
+
+        // Event listener pentru căutare în nav
+        searchFormNav.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const keyword = searchInputNav.value.trim();
+          if (keyword) {
+            localStorage.setItem("searchKeyword", keyword);
+            window.location.href = `search-results.html?q=${encodeURIComponent(
+              keyword
+            )}`;
+          }
+        });
+
+        // Event listener pentru Enter în câmpul de căutare
+        searchInputNav.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            searchFormNav.dispatchEvent(new Event("submit"));
+          }
+        });
+
+        // Căutare automată la încărcarea paginii
+        if (keyword) {
+          await searchProducts(keyword);
+        } else {
+          productsGrid.innerHTML =
+            '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #813e2f; font-family: var(--font-body);">Introduceți un termen de căutare în bara de sus.</div>';
+        }
+      });
+    </script>
+  </body>
+</html>

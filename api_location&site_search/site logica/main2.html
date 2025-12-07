@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Rio - Buy Big From Small</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="main2.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Candal&family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="home">
+      <!-- Navigation -->
+      <nav class="nav-fundal" role="navigation">
+        <button class="burger" type="button" aria-label="Open navigation menu">
+          <img class="burger-icon" src="assets/burger.svg" alt="burger-icon" />
+        </button>
+        
+        <form class="search-bar" role="search">
+          <label for="search-input" class="visually-hidden">Search products</label>
+          <input type="search" id="search-input" name="search" placeholder="Search" aria-label="Search products" />
+          <button type="submit" aria-label="Submit search">
+            <img src="assets/burger.svg" alt="Search" class="search-icon" />
+          </button>
+        </form>
+
+        <a href="#cart" class="cosul-meu" aria-label="View shopping cart">
+          <img class="basket-icon" src="assets/bascket.svg" alt="Basket-icon" />
+          <span class="nav-link-text nav-link-text--cart">COȘUL MEU</span>
+        </a>
+
+        <a href="#favorites" class="favorite" aria-label="View favorites">
+          <img class="heart-icon" src="assets/heart.svg" alt="heart-icon" />
+          <span class="nav-link-text nav-link-text--favorite">FAVORITE</span>
+        </a>
+
+        <a href="profile.html" class="profile" type="button" aria-label="Open user profile" style="text-decoration: none; display: block;"></a>
+      </nav>
+
+      <!-- Hero Section -->
+       <div class="hero-container"> 
+    <section class="hero-section">
+        <div class="hero-content">
+          <img class="hero-logo" src="assets/logoRio.png" alt="Rio logo" />
+          <h1 class="hero-title">HOW DO YOU FEEL TODAY?</h1>
+            <form class="search-form" role="search">
+              <input type="text" class="hero-search-input" placeholder="Search..." />
+              <button class="search-button" type="submit">
+                <span class="button-text button-text--search">Search</span>
+              </button>
+              <button class="i-feel-lucky-button" type="button">
+                <span class="button-text button-text--lucky">I feel lucky</span>
+              </button>
+            </form>
+        </div>
+        <img class="hero-mascot" src="assets/veveritaRio.png" alt="Rio mascot character" />
+    </section>
+
+    <div class="hero-acorns">
+      <img src="assets/ghinda.png" width="50px"  alt="Acorn" />
+      <img src="assets/ghinda.png" width="50px"  alt="Acorn" />
+      <img src="assets/ghinda.png" width="50px"  alt="Acorn" />
+    </div>
+
+  </div>
+      
+
+      <!-- Featured Section -->
+      <section class="featured-section">
+        <div class="featured-image-container">
+          <div class="featured-overlay"></div>
+          <h2 class="section-heading section-heading--large">BUY BIG FROM SMALL</h2>
+          <p class="section-description">Become an Rio member by supporting small talents</p>
+          <div class="featured-leaf-icon"></div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section class="products-section">
+        <h2 class="section-heading section-heading--medium">WHAT'S NEW</h2>
+        <div class="product-grid" id="products-grid">
+          <!-- Products will be loaded dynamically -->
+        </div>
+        <nav class="product-carousel-nav" aria-label="Product navigation" style="display: none;">
+          <button class="carousel-dot carousel-dot--active" aria-label="Page 1"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 2"></button>
+          <button class="carousel-dot carousel-dot--inactive" aria-label="Page 3"></button>
+        </nav>
+      </section>
+
+     
+    </div>
+
+    <script>
+      "use strict";
+      let allProducts = [];
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const searchInputNav = document.querySelector("#search-input");
+        const searchFormNav = document.querySelector(".search-bar");
+        const heroSearchInput = document.querySelector(".hero-search-input");
+        const searchFormHero = document.querySelector(".search-form");
+        const productsGrid = document.getElementById("products-grid");
+
+        // Funcție pentru formatarea prețului
+        function formatPrice(priceString) {
+          if (!priceString || typeof priceString !== "string") {
+            return priceString || "Preț indisponibil";
+          }
+
+          const parts = priceString.trim().split(/\s+/);
+          const currency = parts.slice(1).join(" ") || "";
+          const pricePart = parts[0];
+
+          if (pricePart.includes(",")) {
+            const [integerPart, decimalPart] = pricePart.split(",");
+            if (decimalPart === "00") {
+              return integerPart + (currency ? " " + currency : "");
+            }
+            return pricePart + (currency ? " " + currency : "");
+          }
+
+          if (pricePart.includes(".")) {
+            const digitsOnly = pricePart.replace(/\./g, "");
+            if (digitsOnly.length >= 3) {
+              const lastTwo = digitsOnly.slice(-2);
+              const rest = digitsOnly.slice(0, -2);
+              if (lastTwo === "00") {
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return formatted + (currency ? " " + currency : "");
+              } else {
+                const formatted = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return formatted + "," + lastTwo + (currency ? " " + currency : "");
+              }
+            }
+          }
+
+          const digitsOnly = pricePart.replace(/\D/g, "");
+          if (digitsOnly.length >= 2) {
+            const lastTwo = digitsOnly.slice(-2);
+            const rest = digitsOnly.slice(0, -2);
+            if (lastTwo === "00") {
+              return rest || "0" + (currency ? " " + currency : "");
+            } else {
+              return (rest || "0") + "," + lastTwo + (currency ? " " + currency : "");
+            }
+          }
+
+          return priceString;
+        }
+
+        // Funcție pentru crearea cardului de produs
+        function createProductCard(product) {
+          const article = document.createElement("article");
+          article.className = "product-card";
+
+          const favoriteProducts = JSON.parse(
+            localStorage.getItem("favoriteProducts") || "[]"
+          );
+          const isFavorited = favoriteProducts.includes(product.Nume);
+
+          article.innerHTML = `
+            <div class="product-card-container">
+              <div class="product-card-background"></div>
+              <div class="product-image-placeholder" role="img" aria-label="Product image placeholder"></div>
+              <button class="product-favorite-button ${isFavorited ? "product-favorite-button--active" : ""}" type="button" aria-label="${isFavorited ? "Remove from favorites" : "Add to favorites"}">
+                <img class="product-favorite-icon" src="assets/${isFavorited ? "heart" : "empty-heart"}.svg" alt="Favorite" />
+              </button>
+              <h4 class="product-title">${product.Nume || "Produs fără nume"}</h4>
+              <div class="product-rating-container">
+                <div class="product-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+              <div class="product-price">${formatPrice(product.Pret) || "Preț indisponibil"}</div>
+              <button class="add-to-cart-button" type="button" aria-label="Add to cart">
+                <img class="add-to-cart-icon" src="assets/bascket.svg" alt="Add to cart" />
+              </button>
+            </div>
+          `;
+
+          // Click pe card pentru a deschide produsul
+          article.addEventListener("click", (e) => {
+            if (!e.target.closest(".product-favorite-button") && !e.target.closest(".add-to-cart-button")) {
+              localStorage.setItem("selectedProduct", JSON.stringify(product));
+              window.location.href = "product.html";
+            }
+          });
+
+          // Click pe butonul de favorite
+          const favoriteBtn = article.querySelector(".product-favorite-button");
+          favoriteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            let favoriteProducts = JSON.parse(
+              localStorage.getItem("favoriteProducts") || "[]"
+            );
+
+            if (favoriteProducts.includes(product.Nume)) {
+              favoriteProducts = favoriteProducts.filter(name => name !== product.Nume);
+              favoriteBtn.classList.remove("product-favorite-button--active");
+              favoriteBtn.querySelector(".product-favorite-icon").src = "assets/empty-heart.svg";
+              favoriteBtn.setAttribute("aria-label", "Add to favorites");
+            } else {
+              favoriteProducts.push(product.Nume);
+              favoriteBtn.classList.add("product-favorite-button--active");
+              favoriteBtn.querySelector(".product-favorite-icon").src = "assets/heart.svg";
+              favoriteBtn.setAttribute("aria-label", "Remove from favorites");
+            }
+
+            localStorage.setItem("favoriteProducts", JSON.stringify(favoriteProducts));
+          });
+
+          return article;
+        }
+
+        // Funcție pentru afișarea produselor
+        function displayProducts(productsArray) {
+          productsGrid.innerHTML = "";
+          if (productsArray.length === 0) {
+            productsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-text-primary);">Nu s-au găsit produse.</div>';
+            return;
+          }
+
+          productsArray.forEach((product) => {
+            productsGrid.appendChild(createProductCard(product));
+          });
+        }
+
+        // Funcție pentru încărcarea produselor
+        async function loadProducts() {
+          try {
+            const response = await fetch("/api/products");
+            const data = await response.json();
+
+            if (data.success && data.products) {
+              allProducts = data.products;
+              displayProducts(allProducts);
+            } else {
+              productsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-text-primary);">Eroare la încărcarea produselor.</div>';
+            }
+          } catch (error) {
+            console.error("Eroare la încărcarea produselor:", error);
+            productsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-text-primary);">Eroare la încărcarea produselor. Verifică dacă serverul rulează.</div>';
+          }
+        }
+
+        // Funcție pentru redirecționare către pagina de rezultate
+        function redirectToSearchResults(keyword) {
+          if (keyword && keyword.trim() !== "") {
+            localStorage.setItem("searchKeyword", keyword.trim());
+            window.location.href = `search-results.html?q=${encodeURIComponent(keyword.trim())}`;
+          }
+        }
+
+        // Event listeners pentru căutare în nav
+        searchFormNav.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const keyword = searchInputNav.value.trim();
+          if (keyword) {
+            redirectToSearchResults(keyword);
+            heroSearchInput.value = keyword;
+          }
+        });
+
+        // Event listeners pentru căutare în hero
+        searchFormHero.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const keyword = heroSearchInput.value.trim();
+          if (keyword) {
+            redirectToSearchResults(keyword);
+            searchInputNav.value = keyword;
+          }
+        });
+
+        // Event listener pentru Enter în ambele câmpuri
+        searchInputNav.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            searchFormNav.dispatchEvent(new Event("submit"));
+          }
+        });
+
+        heroSearchInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            searchFormHero.dispatchEvent(new Event("submit"));
+          }
+        });
+
+        // Încarcă produsele inițiale
+        await loadProducts();
+      });
+    </script>
+  </body>
+</html>

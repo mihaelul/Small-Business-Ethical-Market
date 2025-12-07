@@ -262,7 +262,7 @@ async function saveBusinessesLocal(businesses) {
 
     // Elimină locațiile fără website și duplicatele după website
     const seenWebsites = new Set();
-    const uniqueBusinesses = simplifiedBusinesses.filter(business => {
+    let uniqueBusinesses = simplifiedBusinesses.filter(business => {
         // Exclude locațiile fără website
         if (!business.Website) {
             return false;
@@ -286,13 +286,56 @@ async function saveBusinessesLocal(businesses) {
         console.log(`🔍 Eliminate ${duplicatesRemoved} duplicate după website`);
     }
 
+    // Filtrează locațiile fără review-uri (Nr_Reviews = 0 sau null)
+    const businessesWithReviews = uniqueBusinesses.filter(business => {
+        return business.Nr_Reviews && business.Nr_Reviews > 0;
+    });
+
+    const noReviewsRemoved = uniqueBusinesses.length - businessesWithReviews.length;
+    if (noReviewsRemoved > 0) {
+        console.log(`🔍 Eliminate ${noReviewsRemoved} locații fără review-uri`);
+    }
+
+    // Sortează business-urile: prioritizează rating-ul, dar dacă rating-urile sunt asemănătoare,
+    // preferă cel cu mai puține review-uri
+    // Folosește o formulă care combină rating-ul și numărul de review-uri
+    // cu o pondere mai mare pentru rating, dar care penalizează review-urile multe
+    businessesWithReviews.sort((a, b) => {
+        const reviewsA = a.Nr_Reviews || 0;
+        const reviewsB = b.Nr_Reviews || 0;
+        const ratingA = a.Rating || 0;
+        const ratingB = b.Rating || 0;
+        
+        // Threshold pentru diferența de rating (dacă e mai mică decât aceasta, considerăm rating-urile asemănătoare)
+        const ratingThreshold = 0.2;
+        const ratingDiff = Math.abs(ratingA - ratingB);
+        
+        // Dacă diferența de rating e semnificativă (>= threshold), prioritizează rating-ul
+        if (ratingDiff >= ratingThreshold) {
+            return ratingB - ratingA; // Descendent după rating
+        }
+        
+        // Dacă rating-urile sunt asemănătoare (diferență < threshold), preferă cel cu mai puține review-uri
+        // Dar totuși ține cont de rating (dacă unul e puțin mai bun, dar are mult mai multe review-uri,
+        // preferă-l pe cel cu rating puțin mai mic dar cu semnificativ mai puține review-uri)
+        
+        // Calculează un score combinat: rating * 1000 - reviews * 2
+        // Astfel rating-ul are pondere mare, dar review-urile multe penalizează mai mult
+        const scoreA = ratingA * 1000 - reviewsA * 2;
+        const scoreB = ratingB * 1000 - reviewsB * 2;
+        
+        // Sortează descendent după score (score mai mare = mai sus)
+        return scoreB - scoreA;
+    });
+
     // Folosește un singur fișier care se actualizează la fiecare căutare
     const filename = 'businesses.json';
     const filepath = path.join(__dirname, filename);
 
-    // Suprascrie fișierul existent cu noile date (șterge datele vechi)
-    await fs.writeFile(filepath, JSON.stringify(uniqueBusinesses, null, 2), 'utf8');
-    console.log(`💾 Datele au fost actualizate în: ${filename} (${uniqueBusinesses.length} business-uri unice)`);
+    // Suprascrie fișierul existent cu noile date sortate (șterge datele vechi)
+    await fs.writeFile(filepath, JSON.stringify(businessesWithReviews, null, 2), 'utf8');
+    console.log(`💾 Datele au fost actualizate și sortate în: ${filename} (${businessesWithReviews.length} business-uri unice cu review-uri)`);
+    console.log(`📊 Sortare: prioritizează Rating (dacă diferența >= 0.2), altfel Score = Rating * 1000 - Reviews * 2`);
     
     return filepath;
 }
@@ -672,8 +715,8 @@ async function searchProductsOnTopSites(searchQuery) {
         return [];
     }
     
-    // Începe cu primele 3, dar poate extinde dacă nu găsește prețuri
-    const maxSitesToCheck = Math.min(10, allWebsites.length); // Verifică maxim 10 site-uri
+    // Verifică toate site-urile disponibile, maxim 50
+    const maxSitesToCheck = Math.min(50, allWebsites.length); // Verifică maxim 50 site-uri
     const sitesToCheck = allWebsites.slice(0, maxSitesToCheck);
     
     console.log(`📋 Site-uri disponibile: ${allWebsites.length}`);
@@ -741,22 +784,29 @@ async function searchProductsOnTopSites(searchQuery) {
 
 /**
  * Salvează produsele în top-products.json (doar cele cu prețuri)
+ * Șterge complet conținutul vechi și scrie doar noile produse
  * @param {Array} products - Lista de produse
  */
 async function saveProducts(products) {
     const filepath = path.join(__dirname, 'site logica', 'top-products.json');
     
-    // Filtrează doar produsele cu prețuri valide
-    const productsWithPrices = products.filter(p => 
-        p.Pret && 
-        p.Pret !== 'N/A' && 
-        p.Pret.trim() !== '' &&
-        /\d/.test(p.Pret) // Trebuie să conțină cel puțin o cifră
-    );
+    // Șterge conținutul vechi - scrie un array gol dacă nu sunt produse
+    let productsToSave = [];
     
-    // Suprascrie fișierul existent cu noile date (doar produse cu prețuri)
-    await fs.writeFile(filepath, JSON.stringify(productsWithPrices, null, 2), 'utf8');
-    console.log(`\n💾 Produsele au fost salvate în: site logica/top-products.json (${productsWithPrices.length} produse cu prețuri din ${products.length} total)`);
+    if (products && products.length > 0) {
+        // Filtrează doar produsele cu prețuri valide
+        productsToSave = products.filter(p => 
+            p.Pret && 
+            p.Pret !== 'N/A' && 
+            p.Pret.trim() !== '' &&
+            /\d/.test(p.Pret) // Trebuie să conțină cel puțin o cifră
+        );
+    }
+    
+    // Șterge complet fișierul vechi și scrie doar noile produse (sau array gol)
+    await fs.writeFile(filepath, JSON.stringify(productsToSave, null, 2), 'utf8');
+    console.log(`\n💾 Produsele au fost salvate în: site logica/top-products.json (${productsToSave.length} produse cu prețuri din ${products ? products.length : 0} total)`);
+    console.log(`🗑️  Conținutul vechi a fost șters complet.`);
 }
 
 /**
@@ -817,11 +867,16 @@ async function main() {
             // Caută produse pe primele 3 site-uri
             const products = await searchProductsOnTopSites(userCategory);
             
-            if (products.length > 0) {
-                await saveProducts(products);
-            } else {
+            // Șterge conținutul vechi și scrie noile produse (sau array gol dacă nu sunt produse)
+            await saveProducts(products);
+            
+            if (products.length === 0) {
                 console.log('\n⚠️  Nu s-au găsit produse pe site-urile selectate');
             }
+        } else {
+            // Dacă nu s-au găsit business-uri, șterge totuși produsele vechi
+            console.log('\n⚠️  Nu s-au găsit business-uri, se șterg produsele vechi din top-products.json');
+            await saveProducts([]);
         }
 
     } catch (error) {
