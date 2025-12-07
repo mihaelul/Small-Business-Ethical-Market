@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Cosul Meu - Rio</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="assets/buy.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Candal&family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="home">
+      <!-- Navigation -->
+      <nav class="nav-fundal" role="navigation">
+        <button class="burger" type="button" aria-label="Open navigation menu">
+          <img class="burger-icon" src="assets/burger.svg" alt="burger-icon" />
+        </button>
+        
+        <form class="search-bar" role="search">
+          <label for="search-input" class="visually-hidden">Search products</label>
+          <input type="search" id="search-input" name="search" placeholder="Search" aria-label="Search products" />
+          <button type="submit" aria-label="Submit search">
+            <img src="assets/burger.svg" alt="Search" class="search-icon" />
+          </button>
+        </form>
+
+        <a href="buy.html" class="cosul-meu" aria-label="View shopping cart">
+          <img class="basket-icon" src="assets/bascket.svg" alt="Basket-icon" />
+          <span class="nav-link-text nav-link-text--cart">Coșul meu</span>
+        </a>
+
+        <a href="#favorites" class="favorite" aria-label="View favorites">
+          <img class="heart-icon" src="assets/heart.svg" alt="heart-icon" />
+          <span class="nav-link-text nav-link-text--favorite">Favorite</span>
+        </a>
+
+        <button class="profile" type="button" aria-label="Open user profile"></button>
+      </nav>
+
+      <!-- Cart Content -->
+      <div class="cart-container">
+        <!-- Main Cart Section -->
+        <main class="cart-main">
+          <h1 class="cart-title">COSUL MEU</h1>
+
+          <!-- Seller Group 1 -->
+          <section class="seller-group">
+            <p class="seller-name">Produse livrate de Manele e viata mea</p>
+            
+            <article class="cart-product-card">
+              <div class="product-image-placeholder" role="img" aria-label="Product image"></div>
+              <div class="product-info">
+                <h3 class="product-name">Bluza de seara bej</h3>
+                <div class="product-actions">
+                  <div class="quantity-selector">
+                    <button class="quantity-btn quantity-btn--minus" type="button" aria-label="Decrease quantity">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn quantity-btn--plus" type="button" aria-label="Increase quantity">+</button>
+                  </div>
+                  <a href="#" class="delete-link">Sterge</a>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+            </article>
+          </section>
+
+          <!-- Seller Group 2 -->
+          <section class="seller-group">
+            <p class="seller-name">Produse livrate de Manele e viata mea</p>
+            
+            <article class="cart-product-card">
+              <div class="product-image-placeholder" role="img" aria-label="Product image"></div>
+              <div class="product-info">
+                <h3 class="product-name">Bluza de seara bej</h3>
+                <div class="product-actions">
+                  <div class="quantity-selector">
+                    <button class="quantity-btn quantity-btn--minus" type="button" aria-label="Decrease quantity">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn quantity-btn--plus" type="button" aria-label="Increase quantity">+</button>
+                  </div>
+                  <a href="#" class="delete-link">Sterge</a>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+            </article>
+          </section>
+
+          <!-- Seller Group 3 -->
+          <section class="seller-group">
+            <p class="seller-name">Produse livrate de Manele e viata mea</p>
+            
+            <article class="cart-product-card">
+              <div class="product-image-placeholder" role="img" aria-label="Product image"></div>
+              <div class="product-info">
+                <h3 class="product-name">Bluza de seara bej</h3>
+                <div class="product-actions">
+                  <div class="quantity-selector">
+                    <button class="quantity-btn quantity-btn--minus" type="button" aria-label="Decrease quantity">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn quantity-btn--plus" type="button" aria-label="Increase quantity">+</button>
+                  </div>
+                  <a href="#" class="delete-link">Sterge</a>
+                </div>
+              </div>
+              <div class="product-price">30.99 Lei</div>
+            </article>
+          </section>
+        </main>
+
+        <!-- Order Summary Sidebar -->
+        <aside class="order-summary">
+          <h2 class="summary-title">SUMAR COMANDĂ</h2>
+          <div class="summary-total">
+            <span class="total-label">Total:</span>
+            <span class="total-amount">69,67 Lei</span>
+          </div>
+          <button class="buy-button" type="button">BUY</button>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>
+
