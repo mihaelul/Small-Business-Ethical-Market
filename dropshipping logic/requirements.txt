@@ -1,0 +1,21 @@
+# Core dependencies for dropshipping detector
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+Pillow>=10.0.0
+imagehash>=4.3.1
+
+# Web scraping with Selenium (for Google reverse image search)
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# CLIP for advanced image comparison
+torch>=2.0.0
+torchvision>=0.15.0
+ftfy>=6.1.1
+regex>=2022.10.31
+git+https://github.com/openai/CLIP.git
+
+# FAISS for fast similarity search
+faiss-cpu>=1.7.4
+numpy>=1.24.0
+
