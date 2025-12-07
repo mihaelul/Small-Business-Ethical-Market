@@ -1,6 +1,7 @@
 require('dotenv').config();
 const fs = require('fs').promises;
 const path = require('path');
+const cheerio = require('cheerio');
 
 // Configurare
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyCgsbGSK3h6skaM1cAinmyUAulC2rFy5wo';
@@ -245,6 +246,7 @@ function getPlaceType(category) {
 /**
  * Salvează business-urile local într-un fișier JSON
  * Elimină duplicatele după website (salvează doar prima apariție)
+ * Suprascrie fișierul existent cu noile date (șterge datele vechi)
  * @param {Array<object>} businesses - Lista de business-uri
  * @returns {Promise<string>} Calea către fișierul salvat
  */
@@ -284,12 +286,13 @@ async function saveBusinessesLocal(businesses) {
         console.log(`🔍 Eliminate ${duplicatesRemoved} duplicate după website`);
     }
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `businesses_${timestamp}.json`;
+    // Folosește un singur fișier care se actualizează la fiecare căutare
+    const filename = 'businesses.json';
     const filepath = path.join(__dirname, filename);
 
+    // Suprascrie fișierul existent cu noile date (șterge datele vechi)
     await fs.writeFile(filepath, JSON.stringify(uniqueBusinesses, null, 2), 'utf8');
-    console.log(`💾 Datele au fost salvate local în: ${filename} (${uniqueBusinesses.length} business-uri unice)`);
+    console.log(`💾 Datele au fost actualizate în: ${filename} (${uniqueBusinesses.length} business-uri unice)`);
     
     return filepath;
 }
@@ -305,6 +308,455 @@ async function deleteLocalFile(filepath) {
     } catch (error) {
         console.warn(`⚠️  Nu s-a putut șterge fișierul: ${error.message}`);
     }
+}
+
+
+/**
+ * Verifică dacă un link pare a fi o categorie (nu un produs)
+ * @param {string} text - Textul link-ului
+ * @param {string} href - URL-ul link-ului
+ * @returns {boolean} True dacă pare a fi categorie
+ */
+function isCategoryLink(text, href) {
+    const textLower = text.toLowerCase();
+    const hrefLower = href.toLowerCase();
+    
+    // Indicatori că e categorie:
+    // - Text scurt și generic (ex: "Chitara electrica", "Chitara acustica")
+    // - Nu conține nume de brand sau model specific
+    // - Link-ul conține doar numele categoriei
+    const categoryIndicators = [
+        /^(chitara|guitar|pian|piano|tobe|drum)\s*(electric|acustic|clasic|bass)?$/i,
+        /^[a-z\s]+$/i // Doar litere și spații, fără numere sau caractere speciale
+    ];
+    
+    const isShortGeneric = text.length < 30 && categoryIndicators.some(pattern => pattern.test(text));
+    const hasNoNumbers = !/\d/.test(text);
+    const hasNoBrand = !/(yamaha|fender|gibson|ibanez|epiphone|cort|squier|martin|taylor)/i.test(text);
+    
+    return isShortGeneric && hasNoNumbers && hasNoBrand;
+}
+
+/**
+ * Extrage produse dintr-o pagină de categorie sau produse
+ * @param {string} pageUrl - URL-ul paginii
+ * @param {string} searchQuery - Căutarea
+ * @returns {Promise<Array>} Lista de produse
+ */
+async function extractProductsFromPage(pageUrl, searchQuery) {
+    const products = [];
+    const keywords = searchQuery.toLowerCase().split(/\s+/);
+    
+    try {
+        const response = await fetch(pageUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+        });
+        
+        if (!response.ok) return products;
+        
+        const html = await response.text();
+        const $ = cheerio.load(html);
+        
+        // Caută produse folosind selectori comuni pentru e-commerce
+        const productSelectors = [
+            '.product', '.produs', '.product-item', '.product-card',
+            '[class*="product"]', '[class*="produs"]', '[class*="item"]',
+            'article', '.grid-item', '.shop-item'
+        ];
+        
+        // Strategia 1: Caută elemente cu clase de produse
+        productSelectors.forEach(selector => {
+            $(selector).each((i, elem) => {
+                if (products.length >= 15) return false;
+                
+                const $elem = $(elem);
+                const $link = $elem.find('a').first();
+                const href = $link.attr('href');
+                const text = $link.text().trim() || $elem.find('h1, h2, h3, h4, .title, .name').first().text().trim();
+                
+                if (!text || text.length < 10) return;
+                
+                // Verifică dacă textul conține cuvinte cheie
+                const textLower = text.toLowerCase();
+                const matchesKeyword = keywords.some(keyword => textLower.includes(keyword));
+                
+                if (!matchesKeyword) return;
+                
+                // Caută preț
+                let price = 'N/A';
+                const priceSelectors = ['.price', '.pret', '[class*="price"]', '[class*="pret"]', '.amount'];
+                priceSelectors.forEach(priceSel => {
+                    const $price = $elem.find(priceSel).first();
+                    if ($price.length) {
+                        const priceText = $price.text().trim();
+                        const priceMatch = priceText.match(/[\d.,]+\s*(?:lei|ron|€|eur|lei|ron)/i);
+                        if (priceMatch) {
+                            price = priceMatch[0];
+                        } else if (priceText.match(/\d/)) {
+                            price = priceText;
+                        }
+                    }
+                });
+                
+                // Construiește URL complet
+                let fullUrl = href || pageUrl;
+                if (href && !href.startsWith('http')) {
+                    try {
+                        const baseUrl = new URL(pageUrl);
+                        fullUrl = href.startsWith('/') 
+                            ? baseUrl.origin + href 
+                            : baseUrl.origin + '/' + href;
+                    } catch (e) {
+                        fullUrl = pageUrl;
+                    }
+                }
+                
+                // Verifică dacă nu e deja adăugat
+                const isDuplicate = products.some(p => p.Link === fullUrl);
+                if (!isDuplicate) {
+                    products.push({
+                        Nume: text,
+                        Pret: price,
+                        Link: fullUrl
+                    });
+                }
+            });
+        });
+        
+        // Strategia 2: Dacă nu găsim produse, caută link-uri cu prețuri
+        if (products.length === 0) {
+            $('a').each((i, elem) => {
+                if (products.length >= 15) return false;
+                
+                const $elem = $(elem);
+                const href = $elem.attr('href');
+                const text = $elem.text().trim();
+                
+                if (!href || !text || text.length < 10) return;
+                
+                const textLower = text.toLowerCase();
+                const matchesKeyword = keywords.some(keyword => textLower.includes(keyword));
+                
+                if (!matchesKeyword) return;
+                
+                // Verifică dacă are preț în apropiere (semn că e produs, nu categorie)
+                const $parent = $elem.parent();
+                const nearbyText = $parent.text();
+                const hasPrice = /[\d.,]+\s*(?:lei|ron|€|eur)/i.test(nearbyText);
+                
+                // Sau verifică dacă textul conține numere/brand (semn de produs specific)
+                const hasSpecificInfo = /\d/.test(text) || 
+                    /(yamaha|fender|gibson|ibanez|epiphone|cort|squier|martin|taylor|model|set|pachet)/i.test(text);
+                
+                if (hasPrice || hasSpecificInfo) {
+                    let fullUrl = href;
+                    if (!href.startsWith('http')) {
+                        try {
+                            const baseUrl = new URL(pageUrl);
+                            fullUrl = href.startsWith('/') 
+                                ? baseUrl.origin + href 
+                                : baseUrl.origin + '/' + href;
+                        } catch (e) {
+                            fullUrl = pageUrl;
+                        }
+                    }
+                    
+                    let price = 'N/A';
+                    const priceMatch = nearbyText.match(/[\d.,]+\s*(?:lei|ron|€|eur)/i);
+                    if (priceMatch) {
+                        price = priceMatch[0];
+                    }
+                    
+                    const isDuplicate = products.some(p => p.Link === fullUrl);
+                    if (!isDuplicate) {
+                        products.push({
+                            Nume: text,
+                            Pret: price,
+                            Link: fullUrl
+                        });
+                    }
+                }
+            });
+        }
+        
+    } catch (error) {
+        // Ignoră erorile pentru pagini individuale
+    }
+    
+    return products;
+}
+
+/**
+ * Caută produse pe un site web folosind web scraping
+ * @param {string} websiteUrl - URL-ul site-ului
+ * @param {string} searchQuery - Categoria/descrierea pentru căutare
+ * @returns {Promise<Array<{Nume: string, Pret: string, Link: string}>>} Lista de produse găsite
+ */
+async function searchProductsOnWebsite(websiteUrl, searchQuery) {
+    const products = [];
+    const seenUrls = new Set();
+    
+    try {
+        // Normalizează URL-ul
+        let url = websiteUrl.trim();
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+        
+        console.log(`   🔍 Căutare produse pe ${url}...`);
+        
+        // Face request la pagina principală
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
+        
+        if (!response.ok) {
+            console.log(`   ⚠️  Nu s-a putut accesa site-ul (HTTP ${response.status})`);
+            return products;
+        }
+        
+        const html = await response.text();
+        const $ = cheerio.load(html);
+        const keywords = searchQuery.toLowerCase().split(/\s+/);
+        
+        // Strategia 1: Caută direct produse pe pagina principală
+        const mainPageProducts = await extractProductsFromPage(url, searchQuery);
+        mainPageProducts.forEach(p => {
+            if (!seenUrls.has(p.Link)) {
+                products.push(p);
+                seenUrls.add(p.Link);
+            }
+        });
+        
+        // Strategia 2: Caută link-uri către categorii/produse și navighează în ele
+        const categoryLinks = [];
+        $('a').each((i, elem) => {
+            if (categoryLinks.length >= 5) return false; // Limitează la 5 categorii
+            
+            const $elem = $(elem);
+            const href = $elem.attr('href');
+            const text = $elem.text().trim();
+            
+            if (!href || !text) return;
+            
+            const hrefLower = href.toLowerCase();
+            const textLower = text.toLowerCase();
+            
+            const matchesKeyword = keywords.some(keyword => 
+                hrefLower.includes(keyword) || textLower.includes(keyword)
+            );
+            
+            if (matchesKeyword && text.length > 3) {
+                let fullUrl = href;
+                if (href.startsWith('/')) {
+                    try {
+                        const baseUrl = new URL(url);
+                        fullUrl = baseUrl.origin + href;
+                    } catch (e) {
+                        fullUrl = url + href;
+                    }
+                } else if (!href.startsWith('http')) {
+                    try {
+                        const baseUrl = new URL(url);
+                        fullUrl = baseUrl.origin + '/' + href;
+                    } catch (e) {
+                        fullUrl = url + '/' + href;
+                    }
+                }
+                
+                // Verifică dacă e categorie sau produs
+                if (isCategoryLink(text, href)) {
+                    // E categorie - adaugă la listă pentru a naviga mai târziu
+                    if (!categoryLinks.includes(fullUrl) && fullUrl.startsWith('http')) {
+                        categoryLinks.push(fullUrl);
+                    }
+                } else {
+                    // Pare a fi produs - extrage direct
+                    if (!seenUrls.has(fullUrl)) {
+                        let price = 'N/A';
+                        const $parent = $elem.parent();
+                        const priceMatch = $parent.text().match(/[\d.,]+\s*(?:lei|ron|€|eur)/i);
+                        if (priceMatch) {
+                            price = priceMatch[0];
+                        }
+                        
+                        products.push({
+                            Nume: text,
+                            Pret: price,
+                            Link: fullUrl
+                        });
+                        seenUrls.add(fullUrl);
+                    }
+                }
+            }
+        });
+        
+        // Strategia 3: Navighează în paginile de categorii pentru a găsi produse
+        for (const categoryUrl of categoryLinks.slice(0, 3)) { // Max 3 categorii
+            if (products.length >= 20) break; // Limitează totalul
+            
+            console.log(`   📂 Navigare în categorie: ${categoryUrl}`);
+            const categoryProducts = await extractProductsFromPage(categoryUrl, searchQuery);
+            
+            categoryProducts.forEach(p => {
+                if (!seenUrls.has(p.Link) && products.length < 20) {
+                    products.push(p);
+                    seenUrls.add(p.Link);
+                }
+            });
+            
+            // Pauză între request-uri
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        // Filtrează duplicatele și păstrează doar produsele reale (nu categorii)
+        const filteredProducts = products.filter(p => {
+            // Exclude link-uri care sunt clar categorii
+            const isCategory = isCategoryLink(p.Nume, p.Link);
+            return !isCategory && p.Nume.length > 5;
+        });
+        
+        console.log(`   ✅ Găsite ${filteredProducts.length} produse (din ${products.length} total)`);
+        return filteredProducts.slice(0, 15); // Limitează la 15 produse per site
+        
+    } catch (error) {
+        console.log(`   ⚠️  Eroare la căutarea produselor: ${error.message}`);
+    }
+    
+    return products;
+}
+
+/**
+ * Citește businesses.json și returnează toate site-urile (nu doar primele 3)
+ * @returns {Promise<Array<{Denumire: string, Website: string}>>} Toate business-urile cu website
+ */
+async function getAllWebsites() {
+    try {
+        const filepath = path.join(__dirname, 'businesses.json');
+        const data = await fs.readFile(filepath, 'utf8');
+        const businesses = JSON.parse(data);
+        
+        // Filtrează doar cele cu website
+        const businessesWithWebsite = businesses
+            .filter(b => b.Website && b.Website.trim() !== '');
+        
+        return businessesWithWebsite;
+    } catch (error) {
+        console.error('❌ Eroare la citirea businesses.json:', error.message);
+        return [];
+    }
+}
+
+/**
+ * Caută produse pe primele 3 site-uri din businesses.json
+ * Dacă un site nu are prețuri, trece la următorul
+ * @param {string} searchQuery - Categoria/descrierea pentru căutare
+ * @returns {Promise<Array>} Lista de produse găsite
+ */
+async function searchProductsOnTopSites(searchQuery) {
+    console.log('\n' + '='.repeat(60));
+    console.log('🛍️  CĂUTARE PRODUSE PE SITE-URI');
+    console.log('='.repeat(60));
+    console.log(`📂 Căutare: ${searchQuery}`);
+    console.log('='.repeat(60));
+    console.log('');
+    
+    const allWebsites = await getAllWebsites();
+    
+    if (allWebsites.length === 0) {
+        console.log('⚠️  Nu s-au găsit site-uri în businesses.json');
+        return [];
+    }
+    
+    // Începe cu primele 3, dar poate extinde dacă nu găsește prețuri
+    const maxSitesToCheck = Math.min(10, allWebsites.length); // Verifică maxim 10 site-uri
+    const sitesToCheck = allWebsites.slice(0, maxSitesToCheck);
+    
+    console.log(`📋 Site-uri disponibile: ${allWebsites.length}`);
+    console.log(`📋 Site-uri de verificat: ${sitesToCheck.length}`);
+    console.log('');
+    
+    const allProducts = [];
+    let sitesWithPrices = 0;
+    const minSitesWithPrices = 3; // Vrem cel puțin 3 site-uri cu prețuri
+    
+    for (let i = 0; i < sitesToCheck.length; i++) {
+        const business = sitesToCheck[i];
+        console.log(`\n[${i + 1}/${sitesToCheck.length}] ${business.Denumire}`);
+        
+        const products = await searchProductsOnWebsite(business.Website, searchQuery);
+        
+        if (products.length === 0) {
+            console.log(`   ⚠️  Nu s-au găsit produse pe acest site, trec la următorul...`);
+            // Pauză scurtă înainte de următorul site
+            await new Promise(resolve => setTimeout(resolve, 500));
+            continue;
+        }
+        
+        // Verifică dacă există produse cu prețuri
+        const productsWithPrice = products.filter(p => 
+            p.Pret && p.Pret !== 'N/A' && p.Pret.trim() !== ''
+        );
+        
+        if (productsWithPrice.length === 0) {
+            console.log(`   ⚠️  Nu s-au găsit prețuri pe acest site (${products.length} produse fără preț), trec la următorul...`);
+            // Pauză scurtă înainte de următorul site
+            await new Promise(resolve => setTimeout(resolve, 500));
+            continue;
+        }
+        
+        // Site-ul are produse cu prețuri - le adaugă (doar cele cu prețuri)
+        console.log(`   ✅ Găsite ${productsWithPrice.length} produse cu prețuri (din ${products.length} total)`);
+        sitesWithPrices++;
+        
+        // Adaugă informații despre site doar la produsele cu prețuri
+        productsWithPrice.forEach(product => {
+            allProducts.push({
+                ...product,
+                Site: business.Denumire,
+                Site_URL: business.Website
+            });
+        });
+        
+        // Dacă am găsit suficiente site-uri cu prețuri, putem opri
+        if (sitesWithPrices >= minSitesWithPrices && allProducts.length >= 20) {
+            console.log(`\n✅ Găsite suficiente produse cu prețuri de pe ${sitesWithPrices} site-uri`);
+            break;
+        }
+        
+        // Pauză între request-uri pentru a evita rate limiting
+        if (i < sitesToCheck.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    }
+    
+    console.log(`\n📊 Rezumat: ${sitesWithPrices} site-uri cu prețuri, ${allProducts.length} produse totale`);
+    
+    return allProducts;
+}
+
+/**
+ * Salvează produsele în top-products.json (doar cele cu prețuri)
+ * @param {Array} products - Lista de produse
+ */
+async function saveProducts(products) {
+    const filepath = path.join(__dirname, 'site logica', 'top-products.json');
+    
+    // Filtrează doar produsele cu prețuri valide
+    const productsWithPrices = products.filter(p => 
+        p.Pret && 
+        p.Pret !== 'N/A' && 
+        p.Pret.trim() !== '' &&
+        /\d/.test(p.Pret) // Trebuie să conțină cel puțin o cifră
+    );
+    
+    // Suprascrie fișierul existent cu noile date (doar produse cu prețuri)
+    await fs.writeFile(filepath, JSON.stringify(productsWithPrices, null, 2), 'utf8');
+    console.log(`\n💾 Produsele au fost salvate în: site logica/top-products.json (${productsWithPrices.length} produse cu prețuri din ${products.length} total)`);
 }
 
 /**
@@ -358,21 +810,23 @@ async function main() {
         console.log(`📊 Total: ${results.length} business-uri`);
         console.log('='.repeat(60));
 
-        // Salvează rezultatele local într-un fișier JSON
-        let savedFilePath = null;
+        // Salvează rezultatele local într-un fișier JSON (suprascrie datele vechi)
         if (results.length > 0) {
-            savedFilePath = await saveBusinessesLocal(results);
+            await saveBusinessesLocal(results);
+            
+            // Caută produse pe primele 3 site-uri
+            const products = await searchProductsOnTopSites(userCategory);
+            
+            if (products.length > 0) {
+                await saveProducts(products);
+            } else {
+                console.log('\n⚠️  Nu s-au găsit produse pe site-urile selectate');
+            }
         }
 
     } catch (error) {
         console.error('\n❌ Eroare:', error.message);
         process.exit(1);
-    } finally {
-        // Șterge fișierul local după terminarea procesului
-        if (savedFilePath) {
-            console.log('\n🧹 Curățare fișiere temporare...');
-            await deleteLocalFile(savedFilePath);
-        }
     }
 }
 

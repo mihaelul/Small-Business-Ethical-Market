@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Profile - Favorite Categories</title>
+    <style>
+      :root {
+        --gap: 12px;
+        --box-size: 140px;
+        --accent: #2b7cff;
+        --muted: #eee;
+      }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        margin: 24px;
+        background: #fafafa;
+        color: #222;
+      }
+      h1 {
+        margin: 0 0 16px 0;
+        font-size: 24px;
+        color: #2b7cff;
+      }
+      .back-button {
+        margin-bottom: 24px;
+        padding: 8px 16px;
+        background: #f0f0f0;
+        color: #222;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .back-button:hover {
+        background: #e0e0e0;
+      }
+      #favorite-cats {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0 0;
+      }
+      .favorite-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        color: #222;
+        font-size: 16px;
+      }
+      .favorite-item:last-child {
+        border-bottom: none;
+      }
+      .empty-message {
+        color: #666;
+        font-style: italic;
+        margin-top: 24px;
+      }
+      .section {
+        margin-bottom: 40px;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+        color: #2b7cff;
+      }
+      .product-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .product-link:hover .favorite-item {
+        background: #f5f5f5;
+        padding-left: 8px;
+      }
+      .product-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        color: #222;
+        font-size: 16px;
+        transition: padding-left 0.2s ease, background 0.2s ease;
+      }
+      .product-item:last-child {
+        border-bottom: none;
+      }
+      .product-name {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .product-details {
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="main.html" class="back-button">← Back to Main</a>
+
+    <div class="section">
+      <h1 class="section-title">Favorite Categories</h1>
+      <ul id="favorite-cats"></ul>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Favorite Products</h2>
+      <ul id="favorite-products"></ul>
+    </div>
+
+    <script src="Node.js"></script>
+    <script>
+      "use strict";
+      document.addEventListener("DOMContentLoaded", () => {
+        // Display favorite categories
+        const categoriesContainer = document.getElementById("favorite-cats");
+        const savedCategories = JSON.parse(
+          localStorage.getItem("selectedCategories") || "[]"
+        );
+
+        if (savedCategories.length === 0) {
+          categoriesContainer.innerHTML =
+            '<li class="empty-message">No favorite categories selected yet. Go back and select some categories!</li>';
+        } else {
+          savedCategories.forEach((cat) => {
+            const item = document.createElement("li");
+            item.className = "favorite-item";
+            item.textContent = String(cat);
+            categoriesContainer.appendChild(item);
+          });
+        }
+
+        // Display favorite products
+        const productsContainer = document.getElementById("favorite-products");
+        const favoriteProductIds = JSON.parse(
+          localStorage.getItem("favoriteProducts") || "[]"
+        );
+
+        if (favoriteProductIds.length === 0) {
+          productsContainer.innerHTML =
+            '<li class="empty-message">No favorite products yet. Click the favorite button on any product to add it here!</li>';
+        } else {
+          favoriteProductIds.forEach((productId) => {
+            const product = products.find((p) => p.id === productId);
+            if (product) {
+              const link = document.createElement("a");
+              link.href = `product.html?id=${product.id}`;
+              link.className = "product-link";
+
+              const item = document.createElement("li");
+              item.className = "product-item";
+
+              const name = document.createElement("div");
+              name.className = "product-name";
+              name.textContent = product.name;
+
+              const details = document.createElement("div");
+              details.className = "product-details";
+              details.textContent = `${
+                product.company
+              } • $${product.price.toFixed(2)} • ${product.category}`;
+
+              item.appendChild(name);
+              item.appendChild(details);
+              link.appendChild(item);
+              productsContainer.appendChild(link);
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+"use strict";
+
+// Profile categories array
+const profileCategories = [
+  "Articole de îmbrăcăminte",
+  "Electronice",
+  "Electrocasnice",
+  "Mobilier",
+  "Cărți",
+  "Sport și fitness",
+  "Jucării",
+  "Cosmetice și parfumuri",
+  "Alimente și băuturi",
+  "Auto și moto",
+  "Accesorii",
+  "Gradină și exterior",
+];
+
+// Mock products data
+const products = [
+  {
+    id: 1,
+    name: "Tricou Premium",
+    company: "FashionStyle",
+    price: 49.99,
+    category: "Articole de îmbrăcăminte",
+  },
+  {
+    id: 2,
+    name: "Jeans Clasic",
+    company: "FashionStyle",
+    price: 89.99,
+    category: "Articole de îmbrăcăminte",
+  },
+  {
+    id: 3,
+    name: "Laptop Pro 15",
+    company: "TechCorp",
+    price: 1299.99,
+    category: "Electronice",
+  },
+  {
+    id: 4,
+    name: "Smartphone X1",
+    company: "TechCorp",
+    price: 799.99,
+    category: "Electronice",
+  },
+  {
+    id: 5,
+    name: "Frigider Inox",
+    company: "HomeTech",
+    price: 899.99,
+    category: "Electrocasnice",
+  },
+  {
+    id: 6,
+    name: "Mașină de spălat",
+    company: "HomeTech",
+    price: 649.99,
+    category: "Electrocasnice",
+  },
+  {
+    id: 7,
+    name: "Scaun ergonomic",
+    company: "FurniturePlus",
+    price: 299.99,
+    category: "Mobilier",
+  },
+  {
+    id: 8,
+    name: "Masă de birou",
+    company: "FurniturePlus",
+    price: 449.99,
+    category: "Mobilier",
+  },
+  {
+    id: 9,
+    name: "Roman bestseller",
+    company: "BookStore",
+    price: 29.99,
+    category: "Cărți",
+  },
+  {
+    id: 10,
+    name: "Ghid de programare",
+    company: "BookStore",
+    price: 39.99,
+    category: "Cărți",
+  },
+  {
+    id: 11,
+    name: "Bicicletă de munte",
+    company: "SportZone",
+    price: 599.99,
+    category: "Sport și fitness",
+  },
+  {
+    id: 12,
+    name: "Set haltere",
+    company: "SportZone",
+    price: 149.99,
+    category: "Sport și fitness",
+  },
+  {
+    id: 13,
+    name: "Set Lego Creator",
+    company: "ToyWorld",
+    price: 79.99,
+    category: "Jucării",
+  },
+  {
+    id: 14,
+    name: "Păpușă interactivă",
+    company: "ToyWorld",
+    price: 59.99,
+    category: "Jucării",
+  },
+  {
+    id: 15,
+    name: "Parfum premium",
+    company: "BeautyLine",
+    price: 89.99,
+    category: "Cosmetice și parfumuri",
+  },
+  {
+    id: 16,
+    name: "Set creme hidratante",
+    company: "BeautyLine",
+    price: 39.99,
+    category: "Cosmetice și parfumuri",
+  },
+  {
+    id: 17,
+    name: "Cofetărie artizanală",
+    company: "DeliciousFood",
+    price: 24.99,
+    category: "Alimente și băuturi",
+  },
+  {
+    id: 18,
+    name: "Vin roșu premium",
+    company: "DeliciousFood",
+    price: 34.99,
+    category: "Alimente și băuturi",
+  },
+  {
+    id: 19,
+    name: "Set jante aliate",
+    company: "AutoParts",
+    price: 799.99,
+    category: "Auto și moto",
+  },
+  {
+    id: 20,
+    name: "Casco moto",
+    company: "AutoParts",
+    price: 199.99,
+    category: "Auto și moto",
+  },
+  {
+    id: 21,
+    name: "Ceas smartwatch",
+    company: "AccessoryHub",
+    price: 249.99,
+    category: "Accesorii",
+  },
+  {
+    id: 22,
+    name: "Geantă piele",
+    company: "AccessoryHub",
+    price: 129.99,
+    category: "Accesorii",
+  },
+  {
+    id: 23,
+    name: "Set scule gradina",
+    company: "GardenPro",
+    price: 89.99,
+    category: "Gradină și exterior",
+  },
+  {
+    id: 24,
+    name: "Uscator rufe exterior",
+    company: "GardenPro",
+    price: 149.99,
+    category: "Gradină și exterior",
+  },
+];
+
+// Make it accessible globally
+window.profileCategories = profileCategories;
+window.products = products;
